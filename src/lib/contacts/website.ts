@@ -16,6 +16,42 @@ const socialHosts = [
   "youtube.com",
   "tiktok.com",
 ];
+export function extractContactsFromHtml(html: string, baseUrl: URL) {
+  const doc = cheerio.load(html);
+  const emails = new Set<string>();
+  const socials = new Set<string>();
+  const phones = new Set<string>();
+  (html.match(emailPattern) ?? []).forEach((email) => {
+    emails.add(email.toLowerCase());
+  });
+  doc("a[href^='mailto:']").each((_, anchor) => {
+    const email = (doc(anchor).attr("href") ?? "")
+      .slice(7)
+      .split("?")[0]
+      ?.trim()
+      .toLowerCase();
+    if (email && /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email))
+      emails.add(email);
+  });
+  doc("a[href^='tel:']").each((_, anchor) => {
+    const phone = (doc(anchor).attr("href") ?? "").slice(4).trim();
+    if (/^[+()\d][+()\d .-]{5,30}$/.test(phone)) phones.add(phone);
+  });
+  doc("a[href]").each((_, anchor) => {
+    const href = doc(anchor).attr("href");
+    if (!href) return;
+    try {
+      const url = new URL(href, baseUrl);
+      if (
+        socialHosts.some(
+          (host) => url.hostname === host || url.hostname.endsWith(`.${host}`),
+        )
+      )
+        socials.add(url.toString());
+    } catch {}
+  });
+  return { emails: [...emails], socials: [...socials], phones: [...phones] };
+}
 async function fetchHtml(start: string) {
   let url = await assertPublicUrl(start);
   for (let redirects = 0; redirects < 4; redirects++) {
@@ -73,35 +109,18 @@ async function enrichOne(lead: BusinessLead): Promise<ContactEnrichmentResult> {
     }
     const emails = new Set(lead.emails);
     const socials = new Set(lead.socials);
+    const phones = new Set(lead.phone ? [lead.phone] : []);
     for (const page of pages) {
-      const doc = cheerio.load(page.text);
-      (page.text.match(emailPattern) ?? []).forEach((email) => {
-        emails.add(email.toLowerCase());
-      });
-      doc("a[href^='mailto:']").each((_, a) => {
-        emails.add(
-          (doc(a).attr("href") ?? "").slice(7).split("?")[0]!.toLowerCase(),
-        );
-      });
-      doc("a[href]").each((_, a) => {
-        const href = doc(a).attr("href");
-        if (!href) return;
-        try {
-          const url = new URL(href, page.url);
-          if (
-            socialHosts.some(
-              (host) =>
-                url.hostname === host || url.hostname.endsWith(`.${host}`),
-            )
-          )
-            socials.add(url.toString());
-        } catch {}
-      });
+      const extracted = extractContactsFromHtml(page.text, page.url);
+      extracted.emails.forEach((email) => emails.add(email));
+      extracted.socials.forEach((social) => socials.add(social));
+      extracted.phones.forEach((phone) => phones.add(phone));
     }
     return {
       id: lead.id,
       emails: [...emails].slice(0, 20),
       socials: [...socials].slice(0, 20),
+      phone: [...phones][0],
     };
   } catch {
     return {

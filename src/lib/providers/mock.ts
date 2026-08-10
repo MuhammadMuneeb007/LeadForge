@@ -1,4 +1,5 @@
 import type { BusinessLead } from "@/types/lead";
+import { haversineKm } from "@/lib/geo/distance";
 import type { BusinessSearchInput, BusinessSearchProvider } from "./types";
 export class MockProvider implements BusinessSearchProvider {
   readonly name = "mock";
@@ -6,7 +7,7 @@ export class MockProvider implements BusinessSearchProvider {
     await new Promise((resolve) => setTimeout(resolve, 180));
     const category = input.categories[0] ?? "business";
     return Array.from(
-      { length: Math.min(input.resultLimit, 50) },
+      { length: Math.min(input.resultLimit, 15) },
       (_, index): BusinessLead => {
         const latitude = input.latitude + index * 0.003;
         const longitude = input.longitude + index * 0.003;
@@ -31,6 +32,12 @@ export class MockProvider implements BusinessSearchProvider {
           openingHours: index % 2 ? "Mo-Fr 09:00-17:00" : undefined,
           latitude,
           longitude,
+          distanceKm: haversineKm(
+            input.latitude,
+            input.longitude,
+            latitude,
+            longitude,
+          ),
           mapsUrl: `https://www.openstreetmap.org/?mlat=${latitude}&mlon=${longitude}`,
         };
       },

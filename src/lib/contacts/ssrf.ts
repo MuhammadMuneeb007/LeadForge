@@ -1,6 +1,6 @@
 import { lookup } from "node:dns/promises";
 import { isIP } from "node:net";
-function forbidden(address: string) {
+export function isForbiddenAddress(address: string) {
   const value = address.toLowerCase();
   if (
     value === "::1" ||
@@ -46,7 +46,10 @@ export async function assertPublicUrl(value: string) {
   const addresses = isIP(hostname)
     ? [{ address: hostname }]
     : await lookup(hostname, { all: true, verbatim: true });
-  if (!addresses.length || addresses.some((item) => forbidden(item.address)))
+  if (
+    !addresses.length ||
+    addresses.some((item) => isForbiddenAddress(item.address))
+  )
     throw new Error("Private websites are not allowed.");
   return url;
 }

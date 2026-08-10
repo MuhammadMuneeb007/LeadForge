@@ -24,8 +24,10 @@ async function fetchOverpass(query: string): Promise<OverpassResponse> {
         signal: controller.signal,
       });
       if (!response.ok) {
-        if (attempt === 0 && [429, 502, 503, 504].includes(response.status))
+        if (attempt === 0 && [429, 502, 503, 504].includes(response.status)) {
+          await new Promise((resolve) => setTimeout(resolve, 500));
           continue;
+        }
         throw new Error(
           response.status === 429
             ? "OpenStreetMap is busy. Please wait and try again."

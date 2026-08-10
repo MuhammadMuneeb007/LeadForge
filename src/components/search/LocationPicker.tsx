@@ -56,6 +56,10 @@ export function LocationPicker({
       zoom: 10,
     });
     mapRef.current = map;
+    const resizeObserver = new ResizeObserver(() => {
+      requestAnimationFrame(() => map.resize());
+    });
+    resizeObserver.observe(container.current);
     map.addControl(new maplibregl.NavigationControl(), "top-right");
     map.on("load", () => {
       map.addSource("radius", {
@@ -82,14 +86,17 @@ export function LocationPicker({
         .addTo(map);
       markerRef.current = marker;
       marker.on("dragend", () => {
-          const point = marker.getLngLat();
-          changeRef.current(point.lat, point.lng);
-        });
+        const point = marker.getLngLat();
+        changeRef.current(point.lat, point.lng);
+      });
       map.on("click", (event) =>
         changeRef.current(event.lngLat.lat, event.lngLat.lng),
       );
     });
-    return () => map.remove();
+    return () => {
+      resizeObserver.disconnect();
+      map.remove();
+    };
   }, []);
   useEffect(() => {
     const map = mapRef.current;

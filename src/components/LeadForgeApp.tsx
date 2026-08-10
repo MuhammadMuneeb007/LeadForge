@@ -4,7 +4,8 @@ import { Header, type View } from "@/components/layout/Header";
 import { SearchForm } from "@/components/search/SearchForm";
 import { LeadList } from "@/components/leads/LeadList";
 import { LeadMapLoader } from "@/components/map/LeadMapLoader";
-import { downloadCsv } from "@/lib/csv/export";
+import { DataAttribution } from "@/components/DataAttribution";
+import { downloadCsv, downloadGeoJson } from "@/lib/csv/export";
 import { importLeadsCsv } from "@/lib/csv/import";
 import {
   clearLocalData,
@@ -15,6 +16,15 @@ import {
   type HistoryEntry,
 } from "@/lib/storage/local-history";
 import type { BusinessLead, SearchInput, SearchResponse } from "@/types/lead";
+
+const contactFilterOptions = [
+  ["phone", "Phone"],
+  ["email", "Email"],
+  ["website", "Website"],
+  ["social", "Social"],
+  ["hours", "Hours"],
+] as const;
+
 export function LeadForgeApp() {
   const [view, setView] = useState<View>("discover");
   const [leads, setLeads] = useState<BusinessLead[]>([]);
@@ -27,6 +37,13 @@ export function LeadForgeApp() {
   const [activeId, setActiveId] = useState<string>();
   const [enriching, setEnriching] = useState(new Set<string>());
   const [text, setText] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [cityFilter, setCityFilter] = useState("all");
+  const [distanceFilter, setDistanceFilter] = useState("all");
+  const [contactFilters, setContactFilters] = useState(new Set<string>());
+  const [sortBy, setSortBy] = useState<"distance" | "name" | "completeness">(
+    "distance",
+  );
   const importInput = useRef<HTMLInputElement>(null);
   useEffect(() => {
     void Promise.all([readSelected(), readHistory()]).then(([a, b]) => {
@@ -35,15 +52,59 @@ export function LeadForgeApp() {
     });
   }, []);
   const source = view === "saved" ? saved : leads;
-  const visible = useMemo(
-    () =>
-      source.filter((lead) =>
-        `${lead.businessName} ${lead.address} ${lead.category}`
-          .toLowerCase()
-          .includes(text.toLowerCase()),
-      ),
-    [source, text],
+  const categories = useMemo(
+    () => [...new Set(source.map((lead) => lead.category))].sort(),
+    [source],
   );
+  const cities = useMemo(
+    () => [...new Set(source.map((lead) => lead.city).filter(Boolean))].sort(),
+    [source],
+  );
+  const visible = useMemo(() => {
+    const needle = text.trim().toLowerCase();
+    const maximumDistance =
+      distanceFilter === "all"
+        ? Number.POSITIVE_INFINITY
+        : Number(distanceFilter);
+    return source
+      .filter((lead) => {
+        const matchesText =
+          `${lead.businessName} ${lead.address ?? ""} ${lead.category} ${lead.city ?? ""}`
+            .toLowerCase()
+            .includes(needle);
+        return (
+          matchesText &&
+          (categoryFilter === "all" || lead.category === categoryFilter) &&
+          (cityFilter === "all" || lead.city === cityFilter) &&
+          (lead.distanceKm === undefined ||
+            lead.distanceKm <= maximumDistance) &&
+          (!contactFilters.has("phone") || Boolean(lead.phone)) &&
+          (!contactFilters.has("email") ||
+            Boolean(lead.email || lead.emails.length)) &&
+          (!contactFilters.has("website") || Boolean(lead.website)) &&
+          (!contactFilters.has("social") || lead.socials.length > 0) &&
+          (!contactFilters.has("hours") || Boolean(lead.openingHours))
+        );
+      })
+      .toSorted((a, b) => {
+        if (sortBy === "name")
+          return a.businessName.localeCompare(b.businessName);
+        if (sortBy === "completeness")
+          return (b.completenessScore ?? 0) - (a.completenessScore ?? 0);
+        return (
+          (a.distanceKm ?? Number.POSITIVE_INFINITY) -
+          (b.distanceKm ?? Number.POSITIVE_INFINITY)
+        );
+      });
+  }, [
+    source,
+    text,
+    categoryFilter,
+    cityFilter,
+    distanceFilter,
+    contactFilters,
+    sortBy,
+  ]);
   const chosen = source.filter((lead) => selected.has(lead.id));
   const withPhones = visible.filter((lead) => lead.phone).length;
   const withEmails = visible.filter(
@@ -107,14 +168,22 @@ export function LeadForgeApp() {
       });
       const body = (await response.json()) as {
         error?: string;
-        results?: { id: string; emails: string[]; socials: string[] }[];
+        results?: {
+          id: string;
+          emails: string[];
+          socials: string[];
+          phone?: string;
+        }[];
       };
       if (!response.ok) throw new Error(body.error);
       const results = new Map(body.results?.map((r) => [r.id, r]));
       const merge = (items: BusinessLead[]) =>
-        items.map((lead) =>
-          results.has(lead.id) ? { ...lead, ...results.get(lead.id) } : lead,
-        );
+        items.map((lead) => {
+          const result = results.get(lead.id);
+          return result
+            ? { ...lead, ...result, phone: lead.phone ?? result.phone }
+            : lead;
+        });
       setLeads(merge);
       const next = merge(saved);
       setSaved(next);
@@ -257,6 +326,17 @@ export function LeadForgeApp() {
                   Export all
                 </button>
                 <button
+                  disabled={!chosen.length}
+                  onClick={() => downloadCsv(chosen, "leadforge-selected.csv")}
+                >
+                  Export selected
+                </button>
+                <button
+                  onClick={() => downloadGeoJson(visible, "leadforge.geojson")}
+                >
+                  GeoJSON
+                </button>
+                <button
                   disabled={!withPhones}
                   onClick={() =>
                     downloadCsv(
@@ -312,13 +392,76 @@ export function LeadForgeApp() {
                 <strong>{withEmails}</strong>
               </article>
             </div>
-            <input
-              className="result-search"
-              type="search"
-              placeholder="Filter results…"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-            />
+            <div className="filters" aria-label="Result filters">
+              <input
+                type="search"
+                placeholder="Search name or address…"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+              />
+              <select
+                value={categoryFilter}
+                onChange={(e) => setCategoryFilter(e.target.value)}
+                aria-label="Category filter"
+              >
+                <option value="all">All categories</option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category.replaceAll("_", " ")}
+                  </option>
+                ))}
+              </select>
+              <select
+                value={cityFilter}
+                onChange={(e) => setCityFilter(e.target.value)}
+                aria-label="City filter"
+              >
+                <option value="all">All cities</option>
+                {cities.map((city) => (
+                  <option key={city} value={city}>
+                    {city}
+                  </option>
+                ))}
+              </select>
+              <select
+                value={distanceFilter}
+                onChange={(e) => setDistanceFilter(e.target.value)}
+                aria-label="Distance filter"
+              >
+                <option value="all">Any distance</option>
+                {[5, 10, 25, 50].map((distance) => (
+                  <option key={distance} value={distance}>
+                    Within {distance} km
+                  </option>
+                ))}
+              </select>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+                aria-label="Sort results"
+              >
+                <option value="distance">Nearest first</option>
+                <option value="name">Business name</option>
+                <option value="completeness">Most complete</option>
+              </select>
+              {contactFilterOptions.map(([id, label]) => (
+                <label className="check-filter" key={id}>
+                  <input
+                    type="checkbox"
+                    checked={contactFilters.has(id)}
+                    onChange={() =>
+                      setContactFilters((current) => {
+                        const next = new Set(current);
+                        if (next.has(id)) next.delete(id);
+                        else next.add(id);
+                        return next;
+                      })
+                    }
+                  />
+                  {label}
+                </label>
+              ))}
+            </div>
             <div
               className={`results-grid ${mode === "split" ? "with-map" : ""} ${mode === "map" ? "map-only" : ""}`}
             >
@@ -361,10 +504,7 @@ export function LeadForgeApp() {
                 />
               )}
             </div>
-            <p className="attribution">
-              Business data © OpenStreetMap contributors (ODbL). Map tiles ©
-              OpenFreeMap.
-            </p>
+            <DataAttribution />
           </section>
         )}
         {view === "saved" && !saved.length && (

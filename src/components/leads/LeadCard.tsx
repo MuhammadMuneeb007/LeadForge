@@ -36,13 +36,21 @@ export function LeadCard({
         </label>
       </div>
       <div className="lead-meta">
-        <span>{lead.distanceKm?.toFixed(1)} km away</span>
+        <span>
+          {lead.distanceKm === undefined
+            ? "Distance unavailable"
+            : `${lead.distanceKm.toFixed(1)} km away`}
+        </span>
         <span>{lead.phone ?? "No phone listed"}</span>
         <span>Completeness {lead.completenessScore ?? 0}%</span>
+        <span>
+          Source:{" "}
+          {lead.source === "openstreetmap" ? "OpenStreetMap" : lead.source}
+        </span>
       </div>
-      {lead.openingHours && <p>{lead.openingHours}</p>}
+      {lead.openingHours && <p>Opening hours: {lead.openingHours}</p>}
       {(lead.emails?.length ?? 0) > 0 && (
-        <p className="emails">{lead.emails?.join(" · ")}</p>
+        <p className="emails">{lead.emails.join(" · ")}</p>
       )}
       <div className="lead-actions">
         {lead.website && (

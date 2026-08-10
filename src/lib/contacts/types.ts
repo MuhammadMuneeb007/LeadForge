@@ -4,6 +4,7 @@ export type ContactEnrichmentResult = {
   id: string;
   emails: string[];
   socials: string[];
+  phone?: string;
   warning?: string;
 };
 export interface ContactEnrichmentProvider {

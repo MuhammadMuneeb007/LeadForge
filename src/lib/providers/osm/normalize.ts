@@ -22,7 +22,9 @@ const address = (t: Record<string, string>) =>
     t["addr:street"],
     t["addr:suburb"],
     t["addr:city"],
+    t["addr:state"],
     t["addr:postcode"],
+    t["addr:country"],
   ]
     .filter(Boolean)
     .join(", ") ||
@@ -53,7 +55,7 @@ export function normalizeOsmElement(
   const email = first(tags, ["contact:email", "email"]);
   const socials = Object.entries(tags)
     .filter(([key]) =>
-      /^(contact:)?(facebook|instagram|linkedin|twitter|youtube)$/.test(key),
+      /^(contact:)?(facebook|instagram|linkedin|twitter|x|youtube)$/.test(key),
     )
     .map(([, value]) => url(value) ?? value);
   return {
