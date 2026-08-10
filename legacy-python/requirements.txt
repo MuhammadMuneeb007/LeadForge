@@ -1,0 +1,6 @@
+fastapi>=0.115,<1
+uvicorn[standard]>=0.34,<1
+pydantic>=2.10,<3
+playwright==1.62.0
+requests>=2.32,<3
+email-validator>=2.2,<3
