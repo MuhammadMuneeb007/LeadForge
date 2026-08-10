@@ -17,7 +17,7 @@
     "data:cities": "tsx scripts/build-city-index.ts"
   },
   "dependencies": {
-    "cheerio": "1.1.2",
+    "cheerio": "1.2.0",
     "idb": "8.0.3",
     "maplibre-gl": "5.7.3",
     "next": "16.3.0",
