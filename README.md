@@ -6,6 +6,12 @@ LeadForge is a self-hostable local-business discovery app built entirely on open
 
 **Source:** [github.com/MuhammadMuneeb007/LeadForge](https://github.com/MuhammadMuneeb007/LeadForge)
 
+## Live product demo
+
+[![Open the live LeadForge demo](docs/assets/leadforge-demo.gif)](https://leadforge-umber.vercel.app)
+
+**[Launch LeadForge →](https://leadforge-umber.vercel.app)**
+
 No account, paid data API, server database, browser automation, or email provider is required.
 
 ## Stack and data

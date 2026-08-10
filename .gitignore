@@ -17,6 +17,7 @@ __pycache__/
 browser-verification.png
 leadforge-map-working.png
 leadforge-redesign.png
+docs/assets/demo-*.png
 *.log
 *.tsbuildinfo
 
