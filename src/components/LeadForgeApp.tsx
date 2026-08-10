@@ -283,8 +283,13 @@ export function LeadForgeApp() {
                     key={item}
                     className={mode === item ? "active" : ""}
                     onClick={() => setMode(item)}
+                    aria-pressed={mode === item}
                   >
-                    {item}
+                    {item === "list"
+                      ? "List"
+                      : item === "split"
+                        ? "List + map"
+                        : "Map"}
                   </button>
                 ))}
               </div>
@@ -315,7 +320,7 @@ export function LeadForgeApp() {
               onChange={(e) => setText(e.target.value)}
             />
             <div
-              className={`results-grid ${mode !== "list" ? "with-map" : ""}`}
+              className={`results-grid ${mode === "split" ? "with-map" : ""} ${mode === "map" ? "map-only" : ""}`}
             >
               {mode !== "map" && (
                 <div>

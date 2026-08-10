@@ -6,16 +6,16 @@ import { LocationPickerLoader } from "./LocationPickerLoader";
 import type { CityRecord } from "@/data/cities/types";
 import type { SearchInput } from "@/types/lead";
 
-const lahore: CityRecord = {
-  id: "1172451",
-  name: "Lahore",
-  asciiName: "Lahore",
-  latitude: 31.558,
-  longitude: 74.35071,
-  countryCode: "PK",
-  admin1: "Punjab",
-  population: 13004135,
-  timezone: "Asia/Karachi",
+const brisbane: CityRecord = {
+  id: "2174003",
+  name: "Brisbane",
+  asciiName: "Brisbane",
+  latitude: -27.46794,
+  longitude: 153.02809,
+  countryCode: "AU",
+  admin1: "Queensland",
+  population: 2780063,
+  timezone: "Australia/Brisbane",
 };
 export function SearchForm({
   busy,
@@ -24,12 +24,12 @@ export function SearchForm({
   busy: boolean;
   onSearch: (input: SearchInput) => void;
 }) {
-  const [countryCode, setCountry] = useState("PK");
-  const [query, setQuery] = useState("Lahore, Punjab");
+  const [countryCode, setCountry] = useState("AU");
+  const [query, setQuery] = useState("Brisbane, Queensland");
   const [cities, setCities] = useState<CityRecord[]>([]);
-  const [city, setCity] = useState<CityRecord | undefined>(lahore);
-  const [latitude, setLatitude] = useState(lahore.latitude);
-  const [longitude, setLongitude] = useState(lahore.longitude);
+  const [city, setCity] = useState<CityRecord | undefined>(brisbane);
+  const [latitude, setLatitude] = useState(brisbane.latitude);
+  const [longitude, setLongitude] = useState(brisbane.longitude);
   const [selected, setSelected] = useState(["electronics"]);
   const [radiusKm, setRadius] = useState(10);
   const [resultLimit, setResultLimit] = useState(100);
