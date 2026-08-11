@@ -26,7 +26,7 @@ See [data sources](docs/DATA-SOURCES.md) and the in-app [data and privacy page](
 
 ## Run locally
 
-Requirements: Node.js 20.9 or newer and npm.
+Requirements: Node.js 22 LTS and npm.
 
 ```powershell
 git clone https://github.com/MuhammadMuneeb007/LeadForge.git
