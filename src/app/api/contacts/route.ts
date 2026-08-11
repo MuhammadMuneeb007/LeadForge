@@ -11,7 +11,7 @@ export const maxDuration = 30;
 const leadSchema = z
   .object({
     id: z.string().min(1).max(128),
-    source: z.enum(["openstreetmap", "overture", "mock", "imported"]),
+    source: z.enum(["openstreetmap", "overture", "mock", "imported", "manual"]),
     sourceId: z.string().max(128),
     businessName: z.string().min(1).max(200),
     country: z.string().max(100).optional(),

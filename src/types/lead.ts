@@ -1,6 +1,6 @@
 export type BusinessLead = {
   id: string;
-  source: "openstreetmap" | "overture" | "mock" | "imported";
+  source: "openstreetmap" | "overture" | "mock" | "imported" | "manual";
   sourceId: string;
   businessName: string;
   country?: string;

@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Header, type View } from "@/components/layout/Header";
 import { SearchForm } from "@/components/search/SearchForm";
 import { LeadList } from "@/components/leads/LeadList";
+import { CustomBusinessForm } from "@/components/leads/CustomBusinessForm";
 import { LeadMapLoader } from "@/components/map/LeadMapLoader";
 import { DataAttribution } from "@/components/DataAttribution";
 import { downloadCsv, downloadGeoJson } from "@/lib/csv/export";
@@ -44,6 +45,7 @@ export function LeadForgeApp() {
   const [sortBy, setSortBy] = useState<"distance" | "name" | "completeness">(
     "distance",
   );
+  const [addingBusiness, setAddingBusiness] = useState(false);
   const importInput = useRef<HTMLInputElement>(null);
   useEffect(() => {
     void Promise.all([readSelected(), readHistory()]).then(([a, b]) => {
@@ -236,9 +238,14 @@ export function LeadForgeApp() {
                   addresses, and coordinates.
                 </span>
               </div>
-              <button onClick={() => importInput.current?.click()}>
-                Import CSV
-              </button>
+              <div className="utility-actions">
+                <button onClick={() => setAddingBusiness(true)}>
+                  + Add business
+                </button>
+                <button onClick={() => importInput.current?.click()}>
+                  Import CSV
+                </button>
+              </div>
               <input
                 ref={importInput}
                 type="file"
@@ -309,7 +316,10 @@ export function LeadForgeApp() {
                 <p className="kicker">
                   {view === "saved" ? "SAVED LOCALLY" : "RESULTS"}
                 </p>
-                <h2>{visible.length} businesses</h2>
+                <h2>
+                  {visible.length}{" "}
+                  {visible.length === 1 ? "business" : "businesses"}
+                </h2>
                 <p>
                   OpenStreetMap data may be incomplete. Verify details before
                   outreach.
@@ -517,6 +527,25 @@ export function LeadForgeApp() {
           </section>
         )}
       </main>
+      <CustomBusinessForm
+        open={addingBusiness}
+        onClose={() => setAddingBusiness(false)}
+        onAdd={(lead) => {
+          setLeads((current) => [lead, ...current]);
+          setSaved((current) => {
+            const next = [
+              lead,
+              ...current.filter((item) => item.id !== lead.id),
+            ];
+            void saveSelected(next);
+            return next;
+          });
+          setView("discover");
+          setMode("split");
+          setActiveId(lead.id);
+          toast("Custom business added and saved locally.");
+        }}
+      />
       <footer className="site-footer">
         <div>
           <span className="footer-mark">LF</span>
