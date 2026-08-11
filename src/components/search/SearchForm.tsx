@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { countries } from "@/lib/countries";
 import { categories } from "@/lib/providers/osm/categories";
+import { customCategoryTerm } from "@/lib/providers/osm/categories";
 import { LocationPickerLoader } from "./LocationPickerLoader";
 import type { CityRecord } from "@/data/cities/types";
 import type { SearchInput } from "@/types/lead";
@@ -34,6 +35,7 @@ export function SearchForm({
   const [radiusKm, setRadius] = useState(10);
   const [resultLimit, setResultLimit] = useState(100);
   const [categoryQuery, setCategoryQuery] = useState("");
+  const [customCategory, setCustomCategory] = useState("");
   const [locating, setLocating] = useState(false);
   const [cityMenuOpen, setCityMenuOpen] = useState(false);
   const safeSelected = Array.isArray(selected) ? selected : [];
@@ -85,6 +87,18 @@ export function SearchForm({
             ? items
             : [],
     );
+  const addCustomCategory = () => {
+    const term = customCategory.trim().replace(/\s+/g, " ");
+    if (term.length < 2 || term.length > 60 || safeSelected.length >= 3) return;
+    const known = categories.find((category) =>
+      [category.id, category.label, ...category.aliases]
+        .map((value) => value.toLowerCase())
+        .includes(term.toLowerCase()),
+    );
+    const id = known?.id ?? `custom:${term}`;
+    setSelected((items) => (items.includes(id) ? items : [...items, id]));
+    setCustomCategory("");
+  };
   const useLocation = () => {
     if (!navigator.geolocation) return;
     setLocating(true);
@@ -254,8 +268,47 @@ export function SearchForm({
               </label>
             ))}
           </div>
+          <div className="custom-category">
+            <div>
+              <strong>Can&apos;t find the right type?</strong>
+              <small>
+                Enter a business type or exact name, such as “bus station”.
+              </small>
+            </div>
+            <div className="custom-category-control">
+              <input
+                value={customCategory}
+                onChange={(event) => setCustomCategory(event.target.value)}
+                placeholder="e.g. bus station or Tesla"
+                maxLength={60}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    event.preventDefault();
+                    addCustomCategory();
+                  }
+                }}
+              />
+              <button
+                type="button"
+                onClick={addCustomCategory}
+                disabled={
+                  customCategory.trim().length < 2 || safeSelected.length >= 3
+                }
+              >
+                Add type
+              </button>
+            </div>
+          </div>
         </div>
         <div className="selected-summary">
+          {safeSelected.map((id) => (
+            <button key={id} type="button" onClick={() => toggle(id)}>
+              {customCategoryTerm(id) ??
+                categories.find((category) => category.id === id)?.label ??
+                id}{" "}
+              <b>×</b>
+            </button>
+          ))}
           <span>{safeSelected.length}/3 categories</span>
           <span>{radiusKm} km radius</span>
           <span>Up to {resultLimit} leads</span>

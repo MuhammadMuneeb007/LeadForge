@@ -50,6 +50,34 @@ describe("open data pipeline", () => {
       }),
     ).toThrow();
   });
+  it("builds safe custom business-name and OSM-tag searches", () => {
+    const query = buildOverpassQuery({
+      categories: ["custom:bus stations"],
+      latitude: -27.47,
+      longitude: 153.03,
+      radiusKm: 10,
+    });
+    expect(query).toContain('["name"~"bus stations",i]');
+    expect(query).toContain('["amenity"="bus_station"]');
+    expect(
+      searchSchema.safeParse({
+        countryCode: "AU",
+        cityId: "2174003",
+        categories: ["custom:bus stations"],
+        radiusKm: 10,
+        resultLimit: 100,
+      }).success,
+    ).toBe(true);
+    expect(
+      searchSchema.safeParse({
+        countryCode: "AU",
+        cityId: "2174003",
+        categories: ["custom:a"],
+        radiusKm: 10,
+        resultLimit: 100,
+      }).success,
+    ).toBe(false);
+  });
   it("normalizes nodes and addresses", () => {
     expect(
       normalizeOsmElement(

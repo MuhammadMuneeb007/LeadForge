@@ -1,6 +1,6 @@
 import type { BusinessLead } from "@/types/lead";
 import { haversineKm } from "@/lib/geo/distance";
-import { resolveCategory } from "./categories";
+import { customCategoryTerm, resolveCategory } from "./categories";
 import type { OsmElement } from "./types";
 
 const first = (tags: Record<string, string>, keys: string[]) =>
@@ -45,12 +45,13 @@ export function normalizeOsmElement(
   if (latitude === undefined || longitude === undefined) return;
   const businessName = first(tags, ["name", "brand", "operator"]);
   if (!businessName) return;
-  const category =
+  const categoryId =
     input.categories.find((id) =>
       resolveCategory(id)?.filters.some((f) =>
         (f.values ?? [f.value]).includes(tags[f.key]),
       ),
     ) ?? input.categories[0]!;
+  const category = customCategoryTerm(categoryId) ?? categoryId;
   const website = url(first(tags, ["contact:website", "website", "url"]));
   const email = first(tags, ["contact:email", "email"]);
   const socials = Object.entries(tags)

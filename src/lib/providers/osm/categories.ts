@@ -149,6 +149,16 @@ export const categories: BusinessCategoryDefinition[] = [
     aliases: ["petrol station", "gas station"],
     filters: [{ key: "amenity", value: "fuel" }],
   },
+  {
+    id: "bus_station",
+    label: "Bus station",
+    aliases: ["bus stations", "bus terminal", "bus stop"],
+    filters: [
+      { key: "amenity", value: "bus_station" },
+      { key: "public_transport", value: "station" },
+      { key: "highway", value: "bus_stop" },
+    ],
+  },
 ];
 const lookup = new Map(
   categories.flatMap((category) =>
@@ -159,6 +169,11 @@ const lookup = new Map(
 );
 export const resolveCategory = (value: string) =>
   lookup.get(value.trim().toLocaleLowerCase());
+export const customCategoryPrefix = "custom:";
+export const customCategoryTerm = (value: string) =>
+  value.startsWith(customCategoryPrefix)
+    ? value.slice(customCategoryPrefix.length).trim()
+    : undefined;
 export const suggestCategories = (value: string) =>
   categories
     .filter((category) =>

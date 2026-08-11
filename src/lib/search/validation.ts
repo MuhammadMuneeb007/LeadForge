@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { limits } from "@/lib/config";
-import { resolveCategory } from "@/lib/providers/osm/categories";
+import {
+  customCategoryTerm,
+  resolveCategory,
+} from "@/lib/providers/osm/categories";
 
 export const searchSchema = z
   .object({
@@ -15,7 +18,14 @@ export const searchSchema = z
       .max(limits.maxCategories)
       .superRefine((items, ctx) =>
         items.forEach((item, index) => {
-          if (!resolveCategory(item))
+          const custom = customCategoryTerm(item);
+          if (
+            !resolveCategory(item) &&
+            (!custom ||
+              custom.length < 2 ||
+              custom.length > 60 ||
+              /[\u0000-\u001f]/.test(custom))
+          )
             ctx.addIssue({
               code: "custom",
               path: [index],

@@ -588,6 +588,65 @@ a:focus-visible {
   font-size: 9px;
   font-weight: 650;
 }
+.selected-summary button {
+  border: 1px solid #a9c2b5;
+  border-radius: 20px;
+  background: #edf5e9;
+  color: var(--green);
+  padding: 5px 8px;
+  font-size: 9px;
+  font-weight: 750;
+  cursor: pointer;
+}
+.selected-summary button b {
+  margin-left: 4px;
+  font-size: 12px;
+}
+.custom-category {
+  display: grid;
+  gap: 9px;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px dashed #b8c9bf;
+  border-radius: 10px;
+  background: #f4f8f1;
+}
+.custom-category > div:first-child {
+  display: grid;
+  gap: 2px;
+}
+.custom-category strong {
+  font-size: 10px;
+}
+.custom-category small {
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.45;
+}
+.custom-category-control {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 7px;
+}
+.category-section .custom-category-control input {
+  margin: 0;
+  min-width: 0;
+  background: white;
+}
+.custom-category-control button {
+  border: 1px solid var(--green);
+  border-radius: 7px;
+  background: var(--green);
+  color: white;
+  padding: 0 11px;
+  font-size: 9px;
+  font-weight: 750;
+  cursor: pointer;
+}
+.custom-category-control button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
 .search-submit {
   width: 100%;
   display: flex;
