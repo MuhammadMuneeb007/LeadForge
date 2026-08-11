@@ -92,74 +92,29 @@ export function LeadMap({
     map.on("load", () => {
       map.addSource("leads", {
         type: "geojson",
-        cluster: true,
-        clusterMaxZoom: 13,
-        clusterRadius: 48,
         data: collection(leadsRef.current, activeRef.current),
       });
       map.addLayer({
-        id: "clusters",
+        id: "business-presence",
         type: "circle",
         source: "leads",
-        filter: ["has", "point_count"],
-        paint: {
-          "circle-color": [
-            "step",
-            ["get", "point_count"],
-            "#2d7258",
-            20,
-            "#174c3c",
-            75,
-            "#e4875b",
-          ],
-          "circle-radius": ["step", ["get", "point_count"], 18, 20, 24, 75, 31],
-          "circle-stroke-width": 3,
-          "circle-stroke-color": "rgba(255,255,255,.9)",
-        },
-      });
-      map.addLayer({
-        id: "cluster-count",
-        type: "symbol",
-        source: "leads",
-        filter: ["has", "point_count"],
-        layout: {
-          "text-field": ["get", "point_count_abbreviated"],
-          "text-size": 12,
-        },
-        paint: { "text-color": "#fff" },
-      });
-      map.addLayer({
-        id: "point-halo",
-        type: "circle",
-        source: "leads",
-        filter: ["!", ["has", "point_count"]],
-        paint: {
-          "circle-radius": ["case", ["==", ["get", "active"], 1], 15, 10],
-          "circle-color": "rgba(22,77,60,.14)",
-        },
-      });
-      map.addLayer({
-        id: "points",
-        type: "circle",
-        source: "leads",
-        filter: ["!", ["has", "point_count"]],
         paint: {
           "circle-color": [
             "case",
             ["==", ["get", "active"], 1],
-            "#e4875b",
-            "#164d3c",
+            "#e4572e",
+            "#087f5b",
           ],
-          "circle-radius": ["case", ["==", ["get", "active"], 1], 9, 6],
-          "circle-stroke-width": 2,
-          "circle-stroke-color": "#fff",
+          "circle-radius": ["case", ["==", ["get", "active"], 1], 10, 8],
+          "circle-stroke-width": 3,
+          "circle-stroke-color": "#ffffff",
+          "circle-opacity": 1,
         },
       });
       map.addLayer({
         id: "point-labels",
         type: "symbol",
         source: "leads",
-        filter: ["!", ["has", "point_count"]],
         minzoom: 13,
         layout: {
           "text-field": ["get", "name"],
@@ -174,22 +129,7 @@ export function LeadMap({
           "text-halo-width": 2,
         },
       });
-      map.on("click", "clusters", async (event) => {
-        const feature = event.features?.[0];
-        if (!feature) return;
-        const source = map.getSource("leads") as GeoJSONSource;
-        const zoom = await source.getClusterExpansionZoom(
-          feature.properties?.cluster_id,
-        );
-        map.easeTo({
-          center: (feature.geometry as GeoJSON.Point).coordinates as [
-            number,
-            number,
-          ],
-          zoom,
-        });
-      });
-      map.on("click", "points", (event) => {
+      map.on("click", "business-presence", (event) => {
         const id = String(event.features?.[0]?.properties?.id ?? "");
         const lead = leadsRef.current.find((item) => item.id === id);
         if (!lead) return;
@@ -227,14 +167,12 @@ export function LeadMap({
           .setDOMContent(card)
           .addTo(map);
       });
-      for (const layer of ["clusters", "points"]) {
-        map.on("mouseenter", layer, () => {
-          map.getCanvas().style.cursor = "pointer";
-        });
-        map.on("mouseleave", layer, () => {
-          map.getCanvas().style.cursor = "";
-        });
-      }
+      map.on("mouseenter", "business-presence", () => {
+        map.getCanvas().style.cursor = "pointer";
+      });
+      map.on("mouseleave", "business-presence", () => {
+        map.getCanvas().style.cursor = "";
+      });
       fitAll();
     });
     return () => {
@@ -273,7 +211,7 @@ export function LeadMap({
       </div>
       <div ref={container} className="results-map-canvas" />
       <div className="map-instruction">
-        Click a node for details · click a cluster to expand
+        Click a business node to view its details
       </div>
     </div>
   );
