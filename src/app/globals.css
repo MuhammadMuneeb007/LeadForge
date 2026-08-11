@@ -2172,3 +2172,300 @@ a:focus-visible {
     gap: 8px;
   }
 }
+
+/* Readable product typography — minimum 12px for supporting copy, 14px for controls */
+:root {
+  --muted: #52625c;
+}
+body {
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.brand-copy strong {
+  font-size: 19px;
+}
+.brand-copy small {
+  font-size: 9px;
+  line-height: 1.2;
+}
+.top-nav nav button {
+  font-size: 14px;
+  font-weight: 700;
+}
+.top-nav nav b {
+  font-size: 11px;
+}
+.github-link,
+.nav-cta {
+  font-size: 13px;
+  padding: 10px 14px;
+}
+.kicker {
+  font-size: 12px;
+  line-height: 1.3;
+}
+.hero-copy > p:not(.kicker) {
+  font-size: 17px;
+}
+.hero-actions a {
+  font-size: 14px;
+  padding: 13px 17px;
+}
+.workflow-card li > b {
+  font-size: 11px;
+}
+.workflow-card li strong {
+  font-size: 15px;
+}
+.workflow-card li small {
+  font-size: 13px;
+}
+.trust-row {
+  font-size: 12px;
+}
+.workspace-heading h2 {
+  font-size: 28px;
+}
+.search-sidebar label,
+.range-block label,
+.section-label b {
+  font-size: 13px;
+}
+.section-label small {
+  font-size: 12px;
+}
+.search-sidebar input,
+.search-sidebar select,
+.filters input,
+.filters select {
+  min-height: 44px;
+  font-size: 14px;
+}
+.locate-button {
+  min-height: 42px;
+  font-size: 13px;
+}
+.range-block output {
+  font-size: 14px;
+}
+.range-labels {
+  font-size: 11px;
+}
+.compact-categories label {
+  min-height: 44px;
+  font-size: 13px;
+}
+.selected-summary span,
+.selected-summary button {
+  font-size: 11px;
+}
+.custom-category strong {
+  font-size: 13px;
+}
+.custom-category small {
+  font-size: 12px;
+}
+.custom-category-control button {
+  font-size: 12px;
+  padding: 0 14px;
+}
+.search-submit {
+  min-height: 48px;
+  font-size: 14px;
+}
+.map-toolbar strong {
+  font-size: 15px;
+}
+.map-toolbar > span {
+  font-size: 11px;
+}
+.map-hint {
+  font-size: 11px;
+}
+.utility-bar strong {
+  font-size: 14px;
+}
+.utility-bar span {
+  font-size: 12px;
+  line-height: 1.5;
+}
+.utility-bar button {
+  min-height: 40px;
+  font-size: 13px;
+}
+.progress-card strong {
+  font-size: 14px;
+}
+.progress-card small {
+  font-size: 12px;
+}
+.results-head > div > p:last-child {
+  font-size: 14px;
+}
+.result-actions button,
+.lead-actions button,
+.lead-actions a,
+.save-strip button,
+.about button {
+  min-height: 38px;
+  font-size: 12px;
+}
+.result-stats span {
+  font-size: 12px;
+}
+.filters {
+  grid-template-columns: minmax(230px, 1.5fr) repeat(4, minmax(140px, 0.75fr));
+}
+.check-filter {
+  min-height: 44px;
+  font-size: 12px;
+}
+.category-tag {
+  font-size: 10px;
+}
+.lead-card h3 {
+  font-size: 21px;
+}
+.lead-card p {
+  font-size: 13px;
+  line-height: 1.5;
+}
+.select-lead {
+  font-size: 12px;
+}
+.lead-meta {
+  font-size: 12px;
+  line-height: 1.45;
+}
+.results-map-toolbar span,
+.map-legend,
+.results-map-toolbar button {
+  font-size: 11px;
+}
+.map-instruction {
+  font-size: 10px;
+}
+.map-popup-card strong {
+  font-size: 15px;
+}
+.map-popup-card span,
+.map-popup-card p,
+.map-popup-card a {
+  font-size: 12px;
+}
+.save-strip {
+  font-size: 13px;
+}
+.empty-state p,
+.about-grid p,
+.about-hero > p:not(.kicker),
+.data-hero > p:not(.kicker) {
+  font-size: 15px;
+}
+.about-hero a {
+  font-size: 13px;
+}
+.about-grid article > span,
+.source-list > div > span {
+  font-size: 11px;
+}
+.about-grid h2 {
+  font-size: 21px;
+}
+.about-details ul {
+  font-size: 14px;
+}
+.privacy-panel strong {
+  font-size: 14px;
+}
+.privacy-panel p,
+.privacy-panel a,
+.privacy-panel button {
+  font-size: 12px;
+}
+.footer-brand strong {
+  font-size: 18px;
+}
+.footer-brand p {
+  font-size: 12px;
+}
+.footer-description {
+  font-size: 13px !important;
+}
+.footer-column strong {
+  font-size: 12px;
+}
+.site-footer .footer-column a {
+  font-size: 13px;
+}
+.footer-bottom {
+  font-size: 11px;
+}
+.static-nav nav {
+  font-size: 13px;
+}
+.data-principles strong {
+  font-size: 15px;
+}
+.data-principles p {
+  font-size: 13px;
+}
+.source-list h2 {
+  font-size: 21px;
+}
+.source-list p {
+  font-size: 14px;
+}
+.data-callout > p {
+  font-size: 14px;
+}
+.attribution {
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@media (max-width: 980px) {
+  .filters {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  body {
+    font-size: 14px;
+  }
+  .hero h1 {
+    font-size: 42px;
+    line-height: 1.02;
+  }
+  .hero-copy > p:not(.kicker) {
+    font-size: 16px;
+  }
+  .workflow-card {
+    padding: 20px;
+  }
+  .workflow-card li strong {
+    font-size: 14px;
+  }
+  .workflow-card li small {
+    font-size: 12px;
+  }
+  .workspace-heading h2 {
+    font-size: 24px;
+  }
+  .compact-categories {
+    grid-template-columns: 1fr;
+    max-height: 330px;
+  }
+  .filters {
+    grid-template-columns: 1fr;
+  }
+  .filters > input {
+    grid-column: auto;
+  }
+  .footer-bottom {
+    gap: 16px;
+    line-height: 1.5;
+  }
+}
