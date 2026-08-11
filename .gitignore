@@ -2,9 +2,8 @@ node_modules/
 .next/
 out/
 coverage/
-.env
-.env.local
-.env.*.local
+.env*
+!.env.example
 *.log
 .DS_Store
 .vercel/
@@ -18,7 +17,7 @@ browser-verification.png
 leadforge-map-working.png
 leadforge-redesign.png
 docs/assets/demo-*.png
-*.log
 *.tsbuildinfo
-
-.vercel
+AGENTS.md
+CLAUDE.md
+legacy-python/

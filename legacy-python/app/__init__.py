@@ -1,2 +1,0 @@
-"""LeadForge application package."""
-
