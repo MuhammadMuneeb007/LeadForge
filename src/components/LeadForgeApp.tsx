@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Header, type View } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { SearchForm } from "@/components/search/SearchForm";
 import { LeadList } from "@/components/leads/LeadList";
 import { CustomBusinessForm } from "@/components/leads/CustomBusinessForm";
@@ -211,25 +212,67 @@ export function LeadForgeApp() {
       <main>
         {view === "discover" && (
           <>
-            <section className="hero">
-              <div>
-                <p className="kicker">OPEN-SOURCE PROSPECTING WORKSPACE</p>
+            <section className="hero" id="how-it-works">
+              <div className="hero-copy">
+                <p className="kicker">OPEN-SOURCE BUSINESS DISCOVERY</p>
                 <h1>
-                  Map a market. Build a <em>qualified lead list.</em>
+                  Find local businesses. Build a list you can{" "}
+                  <em>actually use.</em>
                 </h1>
                 <p>
-                  Discover public business listings worldwide, map nearby
-                  prospects, enrich public website contacts, and export your
-                  shortlist.
+                  Choose a location and business type, review every result on
+                  the map, then export the public details you need for outreach.
                 </p>
+                <div className="hero-actions">
+                  <a href="#workspace" className="primary-link">
+                    Start a search <span>→</span>
+                  </a>
+                  <a href="/about/data" className="secondary-link">
+                    How the data works
+                  </a>
+                </div>
               </div>
-              <div className="hero-proof">
-                <span>No login</span>
-                <span>No paid data API</span>
-                <span>Local-first storage</span>
+              <div className="workflow-card" aria-label="How LeadForge works">
+                <p className="kicker">FROM SEARCH TO SHORTLIST</p>
+                <ol>
+                  <li>
+                    <b>01</b>
+                    <span>
+                      <strong>Define the market</strong>
+                      <small>
+                        Set a city, radius, and up to three business types.
+                      </small>
+                    </span>
+                  </li>
+                  <li>
+                    <b>02</b>
+                    <span>
+                      <strong>Review the results</strong>
+                      <small>
+                        Compare listings, contact coverage, and map locations.
+                      </small>
+                    </span>
+                  </li>
+                  <li>
+                    <b>03</b>
+                    <span>
+                      <strong>Export your shortlist</strong>
+                      <small>
+                        Download selected leads, phones, emails, or GeoJSON.
+                      </small>
+                    </span>
+                  </li>
+                </ol>
+                <div className="trust-row">
+                  <span>✓ No login</span>
+                  <span>✓ Local-first</span>
+                  <span>✓ Open source</span>
+                </div>
               </div>
             </section>
-            <SearchForm busy={busy} onSearch={search} />
+            <div id="workspace">
+              <SearchForm busy={busy} onSearch={search} />
+            </div>
             <div className="utility-bar">
               <div>
                 <strong>Already have a list?</strong>
@@ -285,28 +328,84 @@ export function LeadForgeApp() {
           </>
         )}
         {view === "about" && (
-          <section className="page-panel">
-            <h1>Privacy-first local prospecting</h1>
-            <p>
-              LeadForge uses OpenStreetMap and a local GeoNames city index.
-              Searches and saved leads remain in IndexedDB in this browser.
-              Contact discovery visits only a listing’s public website and
-              blocks private network destinations.
-            </p>
-            <p>
-              <a href="/about/data">Read about data sources and attribution</a>
-            </p>
-            <button
-              onClick={() =>
-                void clearLocalData().then(() => {
-                  setSaved([]);
-                  setHistory([]);
-                  toast("Local data cleared.");
-                })
-              }
-            >
-              Clear local data
-            </button>
+          <section className="about-page">
+            <div className="about-hero">
+              <p className="kicker">ABOUT LEADFORGE</p>
+              <h1>
+                A transparent prospecting workspace built around open data.
+              </h1>
+              <p>
+                LeadForge uses OpenStreetMap and a local GeoNames city index.
+                Searches and saved leads remain in IndexedDB in this browser.
+                Contact discovery visits only a listing’s public website and
+                blocks private network destinations.
+              </p>
+              <p>
+                <a href="/about/data">
+                  Read about data sources and attribution
+                </a>
+              </p>
+            </div>
+            <div className="about-grid">
+              <article>
+                <span>01</span>
+                <h2>Search responsibly</h2>
+                <p>
+                  Queries are geographically bounded and use public
+                  OpenStreetMap listings. Coverage varies, so every record
+                  should be verified.
+                </p>
+              </article>
+              <article>
+                <span>02</span>
+                <h2>Keep control</h2>
+                <p>
+                  Saved leads and recent searches stay inside this browser.
+                  LeadForge does not operate a central customer database.
+                </p>
+              </article>
+              <article>
+                <span>03</span>
+                <h2>Export cleanly</h2>
+                <p>
+                  Choose the records you need and export CSV, phone lists, email
+                  lists, or GeoJSON for your own workflow.
+                </p>
+              </article>
+            </div>
+            <div className="about-details">
+              <div>
+                <p className="kicker">WHAT IT DOES</p>
+                <h2>Useful tools, without pretending the data is perfect.</h2>
+              </div>
+              <ul>
+                <li>Worldwide country and city selection</li>
+                <li>Radius-based map search and individual business nodes</li>
+                <li>Public website contact discovery on request</li>
+                <li>Local saved lists, filters, sorting, and exports</li>
+              </ul>
+            </div>
+            <div className="privacy-panel">
+              <div>
+                <strong>Your local workspace</strong>
+                <p>
+                  Clear saved leads and search history from this browser at any
+                  time.
+                </p>
+              </div>
+              <a href="/about/data">Data and privacy details →</a>
+              <button
+                onClick={() =>
+                  void clearLocalData().then(() => {
+                    setSaved([]);
+                    setHistory([]);
+                    toast("Local data cleared.");
+                  })
+                }
+              >
+                Clear my local data
+              </button>
+            </div>
           </section>
         )}
         {view !== "about" && source.length > 0 && (
@@ -546,31 +645,7 @@ export function LeadForgeApp() {
           toast("Custom business added and saved locally.");
         }}
       />
-      <footer className="site-footer">
-        <div>
-          <span className="footer-mark">LF</span>
-          <div>
-            <strong>LeadForge</strong>
-            <small>Open-source business discovery</small>
-          </div>
-        </div>
-        <nav>
-          <a href="/about/data">Data &amp; attribution</a>
-          <a
-            href={
-              process.env.NEXT_PUBLIC_GITHUB_URL ??
-              "https://github.com/MuhammadMuneeb007/LeadForge"
-            }
-            target="_blank"
-            rel="noreferrer"
-          >
-            GitHub repository ↗
-          </a>
-        </nav>
-        <p>
-          Use public business data responsibly. Verify details before outreach.
-        </p>
-      </footer>
+      <Footer />
       <div className={`toast ${notice ? "show" : ""}`} role="status">
         {notice}
       </div>
