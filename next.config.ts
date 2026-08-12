@@ -13,7 +13,7 @@ const securityHeaders = [
   {
     key: "Content-Security-Policy",
     value:
-      `default-src 'self'; script-src 'self' 'unsafe-inline'${developmentScriptPolicy}; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*.openfreemap.org https://tiles.openfreemap.org; connect-src 'self' https://*.openfreemap.org https://tiles.openfreemap.org; worker-src 'self' blob:; font-src 'self' data:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'`,
+      `default-src 'self'; script-src 'self' 'unsafe-inline'${developmentScriptPolicy} https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*.openfreemap.org https://tiles.openfreemap.org; connect-src 'self' https://*.openfreemap.org https://tiles.openfreemap.org; worker-src 'self' blob:; font-src 'self' data:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'`,
   },
 ];
 
