@@ -36,7 +36,7 @@
     "fflate": "0.8.3",
     "prettier": "3.9.6",
     "tsx": "4.23.12",
-    "typescript": "5.9.3",
+    "typescript": "7.0.2",
     "vitest": "4.1.10"
   },
   "engines": {
