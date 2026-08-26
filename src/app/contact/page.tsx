@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ContentNav } from "@/components/layout/ContentNav";
+import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 import { githubUrl } from "@/lib/site";
 
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <ContentNav label="Contact" />
+      <SiteHeader />
       <main className="data-page">
         <header className="data-hero">
           <p className="kicker">CONTACT</p>

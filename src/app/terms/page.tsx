@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ContentNav } from "@/components/layout/ContentNav";
+import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 import { githubUrl } from "@/lib/site";
 
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <>
-      <ContentNav label="Terms" />
+      <SiteHeader />
       <main className="data-page">
         <header className="data-hero">
           <p className="kicker">TERMS AND ACCEPTABLE USE</p>
@@ -217,10 +217,10 @@ export default function TermsPage() {
           <section>
             <h2>10. Advertising on this site</h2>
             <p>
-              The educational guide pages carry advertising served by Google
-              AdSense. The application workspace and the policy pages do not.
-              How advertising cookies are used, and how to opt out of
-              personalisation, is described in the{" "}
+              The four guide articles carry advertising served by Google
+              AdSense. The application workspace, the guides index and the
+              policy pages do not. How advertising cookies are used, and how to
+              opt out of personalisation, is described in the{" "}
               <a href="/privacy">privacy policy</a>.
             </p>
           </section>

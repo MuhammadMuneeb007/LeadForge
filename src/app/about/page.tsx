@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ContentNav } from "@/components/layout/ContentNav";
+import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 import { LocalDataControls } from "@/components/LocalDataControls";
 import { DataAttribution } from "@/components/DataAttribution";
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
-      <ContentNav label="About" />
+      <SiteHeader />
       <main className="data-page">
         <header className="data-hero">
           <p className="kicker">ABOUT LEADFORGE</p>

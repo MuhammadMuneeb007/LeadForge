@@ -1,6 +1,4 @@
-const github =
-  process.env.NEXT_PUBLIC_GITHUB_URL ??
-  "https://github.com/MuhammadMuneeb007/LeadForge";
+import { footerColumns } from "@/lib/navigation";
 
 export function Footer() {
   return (
@@ -18,27 +16,23 @@ export function Footer() {
           details, and export the records you choose. No account required.
         </p>
       </div>
-      <div className="footer-column">
-        <strong>Product</strong>
-        <a href="/">Discover businesses</a>
-        <a href="/#how-it-works">How it works</a>
-        <a href="/#workspace">Import a list</a>
-        <a href="/about">About</a>
-      </div>
-      <div className="footer-column">
-        <strong>Resources</strong>
-        <a href="/guides">Guides</a>
-        <a href="/about/data">Data and attribution</a>
-        <a href="/privacy">Privacy</a>
-        <a href="/terms">Terms</a>
-        <a href="/contact">Contact</a>
-        <a href={github} target="_blank" rel="noreferrer">
-          Source code ↗
-        </a>
-        <a href={`${github}/issues`} target="_blank" rel="noreferrer">
-          Report an issue ↗
-        </a>
-      </div>
+      {footerColumns.map((column) => (
+        <div className="footer-column" key={column.title}>
+          <strong>{column.title}</strong>
+          {column.links.map((link) => (
+            <a
+              key={`${column.title}-${link.href}`}
+              href={link.href}
+              {...(link.external
+                ? { target: "_blank", rel: "noreferrer" }
+                : {})}
+            >
+              {link.label}
+              {link.external ? <span aria-hidden="true"> ↗</span> : null}
+            </a>
+          ))}
+        </div>
+      ))}
       <div className="footer-bottom">
         <span>Open source under the MIT License.</span>
         <span>Verify public listing details before contacting a business.</span>

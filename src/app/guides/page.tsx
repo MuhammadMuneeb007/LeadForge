@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import { ContentNav } from "@/components/layout/ContentNav";
+import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 import { DataAttribution } from "@/components/DataAttribution";
+import { GuideCard } from "@/components/guides/GuideCard";
+import { guides } from "@/lib/navigation";
 
 const title = "LeadForge guides";
 const description =
@@ -15,41 +17,10 @@ export const metadata: Metadata = {
   twitter: { title: `${title} | LeadForge`, description },
 };
 
-const guides = [
-  {
-    href: "/guides/how-leadforge-works",
-    title: "How LeadForge works",
-    summary:
-      "The complete workflow, from choosing a country and radius to exporting a verified shortlist — including what happens behind each step and why a search sometimes returns nothing.",
-    reading: "Start here if you have never run a search.",
-  },
-  {
-    href: "/guides/open-business-data",
-    title: "Working with open business data",
-    summary:
-      "What open geographic data is, how OpenStreetMap records businesses, why phone numbers and opening hours are so often missing, and why a map listing is not a business registry.",
-    reading: "Read this to judge how much a result set is worth.",
-  },
-  {
-    href: "/guides/responsible-business-outreach",
-    title: "Responsible business outreach",
-    summary:
-      "Verifying details before you use them, telling business contacts from personal ones, honouring opt-outs, keeping lists current, and the questions to ask before any campaign.",
-    reading: "Read this before you contact anyone.",
-  },
-  {
-    href: "/guides/exporting-business-data",
-    title: "Exporting business data",
-    summary:
-      "Every export LeadForge produces, what each CSV column contains, how to clean and de-duplicate a list, and how to move it into a spreadsheet or CRM without losing its provenance.",
-    reading: "Read this when your shortlist is ready to leave the browser.",
-  },
-];
-
 export default function GuidesPage() {
   return (
     <>
-      <ContentNav label="Guides" />
+      <SiteHeader />
       <main className="data-page">
         <header className="data-hero">
           <p className="kicker">GUIDES</p>
@@ -63,22 +34,9 @@ export default function GuidesPage() {
           </p>
         </header>
 
-        <section className="source-list">
-          {guides.map((guide, index) => (
-            <div key={guide.href}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <article>
-                <h2>
-                  <a href={guide.href}>{guide.title}</a>
-                </h2>
-                <div>
-                  <p>{guide.summary}</p>
-                  <a className="doc-inline-link" href={guide.href}>
-                    {guide.reading} →
-                  </a>
-                </div>
-              </article>
-            </div>
+        <section className="guide-grid" aria-label="All guides">
+          {guides.map((guide) => (
+            <GuideCard key={guide.slug} guide={guide} />
           ))}
         </section>
 

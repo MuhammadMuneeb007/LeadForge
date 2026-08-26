@@ -2033,6 +2033,7 @@ a:focus-visible {
   color: #91a39c;
   font-size: 9px;
 }
+.wordmark,
 .static-nav .wordmark {
   text-decoration: none;
 }
@@ -2557,4 +2558,537 @@ body {
 }
 .source-list .doc-inline-link {
   margin-top: 12px;
+}
+
+/* ============================================================
+   Global navigation, workspace tabs and guide editorial layout.
+   Everything below reuses the existing tokens and type scale.
+   ============================================================ */
+
+/* --- Desktop navigation --------------------------------------------------- */
+.site-nav {
+  height: 100%;
+}
+.site-nav > ul {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.site-nav > ul > li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.site-nav .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.top-nav nav a.nav-link.active,
+.top-nav nav button.nav-link.active {
+  color: var(--green);
+  border-color: var(--green);
+}
+.nav-caret {
+  color: var(--green2);
+  font-size: 9px;
+}
+.site-nav .nav-menu {
+  position: absolute;
+  top: calc(100% - 1px);
+  left: -12px;
+  z-index: 120;
+  display: grid;
+  gap: 2px;
+  min-width: 246px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+.site-nav .nav-menu[hidden] {
+  display: none;
+}
+.site-nav .nav-menu a {
+  padding: 9px 11px;
+  border-radius: 8px;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.site-nav .nav-menu a:hover {
+  background: #f4f4ed;
+  color: var(--green);
+}
+.site-nav .nav-menu a[aria-current="page"] {
+  background: #e9f0e3;
+  color: var(--green);
+}
+.nav-toggle {
+  display: none;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* --- Mobile navigation ---------------------------------------------------- */
+.mobile-nav {
+  display: none;
+}
+.mobile-nav[hidden] {
+  display: none;
+}
+.mobile-nav > nav {
+  display: grid;
+  gap: 2px;
+}
+.mobile-nav .mobile-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 13px 12px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 650;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.mobile-nav .mobile-link.active {
+  background: #e9f0e3;
+  color: var(--green);
+}
+.mobile-sublist {
+  display: grid;
+  gap: 2px;
+  margin: 2px 0 8px 12px;
+  padding-left: 12px;
+  border-left: 1px solid var(--line);
+}
+.mobile-sublist[hidden] {
+  display: none;
+}
+.mobile-sublist a {
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.mobile-sublist a[aria-current="page"] {
+  color: var(--green);
+}
+
+/* --- Workspace view switch ------------------------------------------------ */
+.workspace-tabs {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 14px 0 0;
+}
+.workspace-tabs button {
+  padding: 6px 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.workspace-tabs button.active {
+  color: var(--green);
+  border-color: var(--green);
+}
+.workspace-tabs b {
+  margin-left: 5px;
+  padding: 2px 6px;
+  border-radius: 20px;
+  background: var(--lime);
+  color: var(--green);
+  font-size: 9px;
+}
+
+/* --- Guide article layout ------------------------------------------------- */
+.guide-hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.guide-hero-meta .kicker {
+  margin: 0;
+}
+.guide-badge {
+  padding: 4px 9px;
+  border-radius: 20px;
+  background: var(--lime);
+  color: var(--green);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+}
+.data-hero > p.guide-hero-facts {
+  margin-top: 20px;
+  color: var(--green2);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.guide-body {
+  display: grid;
+  grid-template-columns: minmax(0, 760px) minmax(230px, 280px);
+  gap: 64px;
+  align-items: start;
+  margin-top: 40px;
+}
+.guide-body .doc-body {
+  margin-top: 0;
+}
+.guide-article {
+  counter-reset: guide-section;
+}
+.guide-article > section {
+  counter-increment: guide-section;
+  scroll-margin-top: 92px;
+}
+.guide-article > section > h2::before {
+  content: counter(guide-section, decimal-leading-zero);
+  display: block;
+  margin-bottom: 9px;
+  color: var(--green2);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.guide-toc {
+  position: sticky;
+  top: 92px;
+}
+.guide-toc > div {
+  padding: 20px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+}
+.guide-toc ol {
+  display: grid;
+  gap: 1px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.guide-toc a {
+  display: grid;
+  grid-template-columns: 21px 1fr;
+  gap: 8px;
+  padding: 7px 8px;
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+  text-decoration: none;
+}
+.guide-toc a:hover {
+  background: #f4f4ed;
+  color: var(--green);
+}
+.guide-toc b {
+  color: var(--green2);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+/* --- Callouts ------------------------------------------------------------- */
+.guide-callout {
+  margin: 26px 0;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+}
+.guide-callout .kicker {
+  margin-bottom: 9px;
+}
+.guide-callout p:last-child {
+  margin-bottom: 0;
+}
+.guide-callout-key {
+  border-color: #cfdcc2;
+  background: #e9f0e3;
+}
+.guide-callout-tip {
+  border-left: 3px solid var(--green2);
+}
+.guide-callout-caution {
+  border-color: #d7a18c;
+  background: #fff8f5;
+}
+.guide-callout-caution .kicker {
+  color: #8a402a;
+}
+
+/* --- Guide cards and end-of-article navigation ---------------------------- */
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 8px;
+}
+.guide-card {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+}
+.guide-card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.guide-card-number {
+  color: var(--green2);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.guide-card h2 {
+  margin: 0;
+  font:
+    21px/1.2 var(--font-serif),
+    serif;
+  font-weight: 650;
+}
+.guide-card h2 a {
+  color: var(--ink);
+  text-decoration: none;
+}
+.guide-card h2 a:hover {
+  color: var(--green);
+}
+.guide-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+.guide-card .guide-card-audience {
+  color: var(--green2);
+  font-size: 12px;
+}
+.guide-card .doc-inline-link {
+  justify-self: start;
+  margin-top: 4px;
+}
+.guide-pager {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 16px;
+  margin-top: 55px;
+}
+.guide-pager-link {
+  display: grid;
+  align-content: center;
+  gap: 6px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  text-decoration: none;
+}
+.guide-pager-link span {
+  color: var(--green2);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.guide-pager-link b {
+  color: var(--ink);
+  font-size: 15px;
+}
+.guide-pager-next {
+  text-align: right;
+}
+.guide-pager-link.is-empty {
+  border: 0;
+  background: transparent;
+}
+.guide-pager-all {
+  align-self: center;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.guide-related {
+  margin-top: 55px;
+}
+.guide-related-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 14px;
+}
+
+/* --- Article typography --------------------------------------------------- */
+.doc-body h2 {
+  font-size: clamp(27px, 2.2vw, 32px);
+}
+.doc-body h3 {
+  margin: 28px 0 10px;
+  font-size: 20px;
+}
+.doc-body p,
+.doc-body li {
+  font-size: 16px;
+  line-height: 1.78;
+}
+.doc-body a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.doc-body a:hover {
+  color: var(--green2);
+}
+.doc-body ul,
+.doc-body ol {
+  gap: 11px;
+}
+
+/* --- Footer: three link columns ------------------------------------------- */
+.site-footer {
+  grid-template-columns: minmax(260px, 1.3fr) repeat(3, minmax(140px, 0.55fr));
+  column-gap: 48px;
+}
+
+/* --- Responsive ----------------------------------------------------------- */
+@media (max-width: 1080px) {
+  .guide-body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 34px;
+  }
+  .guide-toc {
+    position: static;
+    order: -1;
+  }
+  .guide-toc ol {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 980px) {
+  .site-footer {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 820px) {
+  /* The header is a 3-column grid; stack it so the row holding the nav and the
+     drop-down panel each span the full width instead of landing in a column. */
+  .top-nav.site-header {
+    grid-template-columns: 1fr;
+  }
+  /* Specificity must match `.top-nav nav`, which also sets display. */
+  .top-nav .site-nav {
+    display: none;
+  }
+  .nav-toggle {
+    display: inline-flex;
+  }
+  .nav-actions > .nav-cta {
+    display: none;
+  }
+  .mobile-nav {
+    /* The header is a grid above 650px and a wrapping flex row below it;
+       these two declarations give the panel its own full-width row in both. */
+    grid-column: 1 / -1;
+    flex: 1 0 100%;
+    display: grid;
+    gap: 14px;
+    width: 100%;
+    max-height: calc(100vh - 128px);
+    padding: 8px 0 18px;
+    overflow-y: auto;
+    border-top: 1px solid var(--line);
+  }
+  .mobile-nav[hidden] {
+    display: none;
+  }
+  /* Undo the compact in-header `.top-nav nav` treatment, which otherwise
+     reorders this list after the button and clamps it to 38px. */
+  .mobile-nav > nav {
+    order: 0;
+    width: 100%;
+    height: auto;
+    justify-content: flex-start;
+  }
+  .mobile-nav > .nav-cta {
+    order: 1;
+  }
+  .mobile-nav .mobile-link {
+    height: auto;
+    border-bottom: 0;
+    font-size: 15px;
+  }
+  .mobile-nav > .nav-cta {
+    justify-self: start;
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+  .guide-pager {
+    grid-template-columns: 1fr;
+  }
+  .guide-pager-next {
+    text-align: left;
+  }
+  .guide-pager-link.is-empty {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .guide-grid,
+  .guide-related-grid {
+    grid-template-columns: 1fr;
+  }
+  .guide-toc ol {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 620px) {
+  .site-footer {
+    grid-template-columns: 1fr;
+  }
+}
+
+.github-link,
+.nav-cta,
+.nav-toggle {
+  white-space: nowrap;
 }

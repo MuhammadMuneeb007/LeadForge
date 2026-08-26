@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Header, type View } from "@/components/layout/Header";
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { WorkspaceTabs, type View } from "@/components/layout/WorkspaceTabs";
 import { Footer } from "@/components/layout/Footer";
 import { SearchForm } from "@/components/search/SearchForm";
 import { LeadList } from "@/components/leads/LeadList";
@@ -207,8 +208,9 @@ export function LeadForgeApp() {
   }
   return (
     <>
-      <Header view={view} onView={setView} savedCount={saved.length} />
+      <SiteHeader />
       <main>
+        <WorkspaceTabs view={view} onView={setView} savedCount={saved.length} />
         {view === "discover" && (
           <>
             <section className="hero" id="how-it-works">

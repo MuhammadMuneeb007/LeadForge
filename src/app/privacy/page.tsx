@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ContentNav } from "@/components/layout/ContentNav";
+import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 import { githubUrl } from "@/lib/site";
 
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <>
-      <ContentNav label="Privacy" />
+      <SiteHeader />
       <main className="data-page">
         <header className="data-hero">
           <p className="kicker">PRIVACY POLICY</p>
@@ -53,10 +53,10 @@ export default function PrivacyPage() {
                 tiles are fetched by your browser from a public tile host.
               </li>
               <li>
-                Google AdSense is loaded on the educational guide pages only,
-                and Google may use cookies there. It is not loaded on this
-                policy, on the terms or contact pages, or anywhere in the
-                application workspace.
+                Google AdSense is loaded on the four guide articles only, and
+                Google may use cookies there. It is not loaded on this policy,
+                on the terms or contact pages, on the guides index, or anywhere
+                in the application workspace.
               </li>
             </ul>
           </section>
@@ -163,12 +163,12 @@ export default function PrivacyPage() {
             <h2>Part 2 — Advertising and Google</h2>
             <p>
               Parts of this site are supported by advertising. The Google
-              AdSense loader is included only on the educational guide pages
-              under <a href="/guides">/guides</a>. It is deliberately absent
-              from this privacy policy, from the terms and contact pages, and
-              from the entire application workspace — the search screen, result
-              lists, map views, saved lists, import and export flows and error
-              states.
+              AdSense loader is included only on the four articles listed on the{" "}
+              <a href="/guides">guides index</a> — the index page itself carries
+              no advertising. It is deliberately absent from this privacy
+              policy, from the terms and contact pages, and from the entire
+              application workspace — the search screen, result lists, map
+              views, saved lists, import and export flows and error states.
             </p>
             <p>Where advertising is served, the following applies:</p>
             <ul>
@@ -277,8 +277,8 @@ export default function PrivacyPage() {
                 analytics described above.
               </li>
               <li>
-                <strong>Google AdSense</strong> — serves advertising on the
-                guide pages only.
+                <strong>Google AdSense</strong> — serves advertising on the four
+                guide articles only.
               </li>
             </ul>
             <p>

@@ -14,57 +14,102 @@ They are the site owner's responsibility.
 - `public/ads.txt` contains the matching record and was left unchanged:
   `google.com, pub-9384419506874151, DIRECT, f08c47fec0942fa0`
 
-## What was fixed in the code
+## Where advertising runs
 
-### Advertising placement
+**Monetised — these four routes load the AdSense script:**
 
-- **AdSense removed from the global root layout.** `src/app/layout.tsx` no longer
-  injects the loader, so no URL loads advertising by default.
-- **A single controlled loader component** was added at
-  `src/components/ads/AdSenseScript.tsx` (using `next/script`). It is rendered
-  explicitly, page by page.
-- **The application workspace is excluded.** The homepage — search configuration,
-  loading state, results, statistics, filters, map, list/split views, saved
-  leads, the empty Saved state, CSV import, custom business entry and every error
-  or notice state — loads no advertising script.
-- **Policy and support pages are excluded.** `/privacy`, `/terms`, `/contact`,
-  `/about` and `/about/data` load no advertising script.
-- **Error pages are excluded.** A `not-found.tsx` was added; it carries no ads.
-- **Replicated business data is never monetised.** No ad code exists in
-  `LeadCard`, `LeadList`, `LeadMap`, the result statistics, the saved view, or
-  any generated phone/email list.
-- **Loading mechanism.** The loader uses `next/script` with the default
-  `afterInteractive` strategy, so the served HTML carries a preload link for the
-  script and the tag itself is added to `<head>` during hydration. If the AdSense
-  dashboard ever reports that the ad code cannot be found on a guide page,
-  replace the `<Script>` in `AdSenseScript.tsx` with a plain
-  `<script async src={...} crossOrigin="anonymous" />` element — React hoists
-  async script elements into `<head>` and renders them server-side, putting the
-  tag directly in the HTML. Do not add both; that would load the script twice.
-- **Only substantial original articles are monetised** — the four guides under
-  `/guides/*`. No manual ad units were placed; the page-level loader is used, so
-  placement is governed by Auto Ads settings in the AdSense dashboard.
+- `/guides/how-leadforge-works`
+- `/guides/open-business-data`
+- `/guides/responsible-business-outreach`
+- `/guides/exporting-business-data`
 
-### Navigation boundary
+**Ad-free — everything else, including:**
+
+- `/` and the entire application workspace: search configuration, loading
+  states, results, statistics, filters, map, list/split views, Discover, Saved,
+  the empty Saved state, CSV import, custom business entry, every error and
+  notice state
+- `/guides` — the index page carries no ad script
+- `/about`, `/about/data`, `/privacy`, `/terms`, `/contact`
+- the 404 page and all `/api/*` routes
+
+No manual ad units were placed anywhere. The page-level loader is used, so
+placement within the four articles is governed by Auto Ads settings in the
+AdSense dashboard. There is no ad code in `LeadCard`, `LeadList`, `LeadMap`, the
+result statistics, the saved view, the generated phone/email lists, the header
+or its drop-downs, the table of contents, the previous/next navigation, the
+callouts, or the footer.
+
+## How the boundary is enforced
+
+Three independent mechanisms, because any one of them alone has a failure mode.
+
+### 1. The loader is rendered per page, not in a layout
+
+`src/components/ads/AdSenseScript.tsx` is rendered explicitly by each of the four
+article pages. It is not in the root layout and not in `GuideLayout`, so the set
+of monetised pages is visible in a `grep` rather than implied by a shared
+component. A unit test asserts that each article renders it and that the index,
+about, privacy, terms and contact pages do not.
+
+### 2. The loader is in the initial server-rendered HTML
+
+The component renders a plain async `<script>` element rather than using
+`next/script`. React hoists it into `<head>` during server rendering, so the tag
+is present in the HTML that AdSense verification fetches, and React deduplicates
+hoisted scripts by `src`, so a page can only ever load one. Verified on a
+production build: each article serves exactly one `<script>` tag for the loader.
+
+### 3. Navigation always loads a new document
 
 A Content-Security-Policy header attaches to the **document**, not to the route,
 and an App Router client-side transition does not replace it. With `next/link`
 that produced two defects: navigating `/guides` → an article kept the
 restrictive policy and blocked the ad loader, and navigating an article → the
-workspace kept the permissive policy *and* the already-executed ad runtime, so
+workspace kept the article's policy *and* the already-executed ad runtime, so
 Auto Ads could have placed ads on unmonetised screens.
 
 The site therefore uses plain `<a>` elements instead of `next/link`, so every
 navigation loads a new document with its own policy and a clean JavaScript
 context. `@next/next/no-html-link-for-pages` is switched off in
-`eslint.config.mjs` for that reason. Do not reintroduce `next/link` without
-moving this boundary somewhere that survives client-side routing — the notes in
-`next.config.ts` and `AdSenseScript.tsx` say the same thing at the point of use.
+`eslint.config.mjs` for that reason, and the notes in `next.config.ts` and
+`AdSenseScript.tsx` say the same thing at the point of use. **Do not reintroduce
+`next/link` without moving this boundary somewhere that survives client-side
+routing.**
 
-### Content
+## Security headers
 
-New server-rendered, independently crawlable pages with original editorial
-content, all written from the actual behaviour of this repository:
+Every route, monetised articles included, receives:
+
+`X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`,
+`Permissions-Policy` and `Cross-Origin-Opener-Policy`.
+
+**Content-Security-Policy is applied to every route except the four monetised
+articles.** This is a deliberate exception. Advertising needs a moving set of
+Google and DoubleClick origins across the `script-src`, `frame-src`, `img-src`
+and `connect-src` directives; enumerating them by hand is brittle, and when
+Google adds an origin the failure mode is a silently empty ad slot rather than a
+visible error. Rather than maintain that list — or weaken the policy everywhere
+to accommodate it — the four article routes are exempted and everything else
+keeps the strict policy, which contains **no advertising origins at all**:
+
+```
+default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';
+img-src 'self' data: blob: https://*.openfreemap.org https://tiles.openfreemap.org;
+connect-src 'self' https://*.openfreemap.org https://tiles.openfreemap.org;
+worker-src 'self' blob:; font-src 'self' data:; frame-ancestors 'none';
+base-uri 'self'; form-action 'self'
+```
+
+The exemption is scoped by an explicit slug list in `next.config.ts`. A path that
+merely looks like a new guide still receives the policy, so the safe case is the
+default, and a unit test asserts that list matches `guides` in
+`src/lib/navigation.ts`.
+
+## Content
+
+Server-rendered, independently crawlable pages with original editorial content,
+all written from the actual behaviour of this repository:
 
 | Route | Purpose |
 | --- | --- |
@@ -72,53 +117,27 @@ content, all written from the actual behaviour of this repository:
 | `/privacy` | Standalone privacy policy covering application data and advertising/Google disclosures |
 | `/terms` | Terms and acceptable use |
 | `/contact` | Support routes: bugs, features, data concerns, private security disclosure |
-| `/guides` | Index of the educational resources |
+| `/guides` | Editorial index of the four guides |
 | `/guides/how-leadforge-works` | Full workflow walkthrough |
 | `/guides/open-business-data` | Open geographic data, coverage, verification, attribution |
 | `/guides/responsible-business-outreach` | Verification, relevance, opt-outs, jurisdictional differences |
 | `/guides/exporting-business-data` | Exports, CSV columns, import behaviour, cleaning, protecting the file |
 
-The previous client-side "About" view inside the application was replaced by the
-real `/about` URL. Its "Clear my local data" control moved with it, so no
-functionality was lost.
+Each article has a hero with a category badge, a sticky table of contents built
+from real section anchors, numbered sections, previous/next navigation and two
+related guides. No reading times, view counts, ratings, author credentials or
+publication dates were invented.
 
-### Crawling and metadata
+## Crawling and metadata
 
 - `src/app/robots.ts` — allows crawling, disallows `/api/`, points at the sitemap.
-- `src/app/sitemap.ts` — lists the eleven public content URLs; no API routes and
-  no generated per-location pages.
-- Root metadata gained `metadataBase`, a title template, Open Graph, Twitter and
-  robots metadata; the "public-beta" wording was removed.
-- Every standalone page sets a unique title, description, canonical URL and Open
-  Graph title/description.
+- `src/app/sitemap.ts` — the eleven public content URLs; no API routes and no
+  generated per-location pages.
+- Root metadata sets `metadataBase`, a title template, Open Graph, Twitter and
+  robots metadata. Every standalone page sets a unique title, description,
+  canonical URL and Open Graph title/description.
 - Factual JSON-LD only: `SoftwareApplication` on the homepage, `TechArticle` on
-  each guide. No ratings, prices, review counts, author credentials or dates were
-  invented.
-
-### Security headers
-
-The Content-Security-Policy is now built per route. Every route except the four
-guide articles keeps the original policy **minus**
-`https://pagead2.googlesyndication.com`, which is no longer needed there — that
-includes the `/guides` index, which carries no ad script. Only the
-`/guides/<article>` routes add the minimum Google advertising origins required by
-the AdSense loader and Auto Ads:
-
-- `script-src`: `pagead2.googlesyndication.com`, `*.googlesyndication.com`,
-  `partner.googleadservices.com`, `adservice.google.com`,
-  `googleads.g.doubleclick.net`
-- `img-src`: `*.googlesyndication.com`, `*.doubleclick.net`, `*.google.com`,
-  `*.gstatic.com`
-- `connect-src`: `pagead2.googlesyndication.com`, `*.googlesyndication.com`,
-  `googleads.g.doubleclick.net`, `*.google.com`
-- `frame-src` and `fenced-frame-src`: `googleads.g.doubleclick.net`,
-  `tpc.googlesyndication.com`, `www.google.com` (ad iframes; there was no
-  `frame-src` directive before, so `default-src 'self'` would have blocked them)
-
-`frame-ancestors 'none'`, `base-uri 'self'`, `form-action 'self'`,
-`X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`,
-`X-Content-Type-Options` and `Cross-Origin-Opener-Policy` are unchanged, and no
-wildcard or `unsafe-*` source was added.
+  each guide.
 
 ## Consent and privacy messaging — manual, required
 
@@ -135,28 +154,27 @@ traffic, before relying on personalised advertising for those visitors.
 ## Manual checklist — Google AdSense
 
 1. Confirm the site is still connected and authorised in the AdSense account.
-2. Confirm `ads.txt` is detected (Sites → the site → ads.txt status) once the new
-   deployment is live.
+2. Confirm `ads.txt` is detected once the new deployment is live.
 3. Set the privacy-policy URL to `https://leadforge-umber.vercel.app/privacy`.
 4. Open **Privacy & messaging** and configure the European regulations message
    with a Google-certified CMP. Publish it and confirm it is live.
-5. Review **Auto ads** settings. The page-level loader only runs on `/guides/*`,
-   but check that no page-level override, ad-placement rule or experiment is
-   configured that would place ads elsewhere.
-6. Verify in a browser that the homepage, `/privacy`, `/terms`, `/contact`,
-   `/about` and `/about/data` load no `adsbygoogle` request, and that a guide
-   page does.
+5. Review **Auto ads** settings. The loader only runs on the four article
+   routes, but check that no page-level override, ad-placement rule or
+   experiment is configured that would place ads elsewhere.
+6. Verify in a browser that the homepage, `/guides`, `/privacy`, `/terms`,
+   `/contact`, `/about` and `/about/data` issue no `adsbygoogle` request, and
+   that an article page does.
 7. Only then request a new site review.
 
 ## Manual checklist — Google Search Console
 
 1. Confirm the property is verified for the deployed domain.
 2. Submit `https://leadforge-umber.vercel.app/sitemap.xml`.
-3. Use URL Inspection on the homepage and on each guide URL; confirm each is
+3. Use URL Inspection on the homepage and each guide URL; confirm each is
    crawlable and that the reported canonical matches the intended one.
 4. Request indexing for `/about`, `/guides` and the four guide pages.
-5. Check the Page Indexing report after a few days for anything excluded, and
-   confirm `/robots.txt` reports no unexpected blocks.
+5. Check the Page Indexing report after a few days, and confirm `/robots.txt`
+   reports no unexpected blocks.
 
 ## Manual checklist — deployment
 
@@ -173,3 +191,5 @@ The guide, about, privacy, terms and contact pages were written for this
 remediation and have not been read by a human maintainer. Read them before
 submitting the site for review, and correct anything that does not match how you
 want the project described.
+
+Approval is Google's decision. Nothing here guarantees it.

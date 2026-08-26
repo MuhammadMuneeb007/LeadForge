@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ContentNav } from "@/components/layout/ContentNav";
+import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <>
-      <ContentNav label="Page not found" />
+      <SiteHeader />
       <main>
         <section className="page-panel">
           <h1>That page does not exist</h1>
