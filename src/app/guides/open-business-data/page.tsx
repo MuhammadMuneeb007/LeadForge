@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ContentNav } from "@/components/layout/ContentNav";
 import { Footer } from "@/components/layout/Footer";
 import { AdSenseScript } from "@/components/ads/AdSenseScript";
@@ -317,8 +316,8 @@ export default function OpenDataGuide() {
               the same obligations follow the data to you — keeping the source
               and source-identifier columns in your exports makes that far
               easier to honour later. The{" "}
-              <Link href="/about/data">data and attribution page</Link> lists
-              each source and its licence.
+              <a href="/about/data">data and attribution page</a> lists each
+              source and its licence.
             </p>
           </section>
 
@@ -337,21 +336,21 @@ export default function OpenDataGuide() {
               correction is welcome in OpenStreetMap and improves the map for
               everyone who queries it next — including you, the next time you
               run this search. Then read{" "}
-              <Link href="/guides/responsible-business-outreach">
+              <a href="/guides/responsible-business-outreach">
                 Responsible business outreach
-              </Link>{" "}
+              </a>{" "}
               for what to do with the list once you trust it.
             </p>
           </section>
         </div>
 
         <div className="doc-actions">
-          <Link className="doc-inline-link" href="/guides/how-leadforge-works">
+          <a className="doc-inline-link" href="/guides/how-leadforge-works">
             How LeadForge works →
-          </Link>
-          <Link className="doc-inline-link" href="/about/data">
+          </a>
+          <a className="doc-inline-link" href="/about/data">
             Data and attribution →
-          </Link>
+          </a>
         </div>
 
         <DataAttribution />

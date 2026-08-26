@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ContentNav } from "@/components/layout/ContentNav";
 import { Footer } from "@/components/layout/Footer";
 import { DataAttribution } from "@/components/DataAttribution";
@@ -42,15 +41,15 @@ export default function DataPage() {
           <p>Verify contact details, follow local privacy and marketing laws, respect opt-out requests, and contact businesses with a relevant reason—not indiscriminate spam.</p>
         </section>
         <div className="doc-actions">
-          <Link className="doc-inline-link" href="/privacy">
+          <a className="doc-inline-link" href="/privacy">
             Full privacy policy →
-          </Link>
-          <Link className="doc-inline-link" href="/guides/open-business-data">
+          </a>
+          <a className="doc-inline-link" href="/guides/open-business-data">
             Working with open business data →
-          </Link>
-          <Link className="doc-inline-link" href="/about">
+          </a>
+          <a className="doc-inline-link" href="/about">
             About LeadForge →
-          </Link>
+          </a>
         </div>
         <DataAttribution />
       </main>

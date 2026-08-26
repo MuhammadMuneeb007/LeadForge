@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ContentNav } from "@/components/layout/ContentNav";
 import { Footer } from "@/components/layout/Footer";
 import { githubUrl } from "@/lib/site";
@@ -77,10 +76,10 @@ export default function PrivacyPage() {
             <p>
               You can delete all of it at any time using{" "}
               <strong>Clear my local data</strong> on the{" "}
-              <Link href="/about">About page</Link>, or by clearing site data
-              for this domain in your browser settings. Clearing it is
-              immediate, permanent and unrecoverable — export anything you want
-              to keep first.
+              <a href="/about">About page</a>, or by clearing site data for this
+              domain in your browser settings. Clearing it is immediate,
+              permanent and unrecoverable — export anything you want to keep
+              first.
             </p>
 
             <h3>Business searches</h3>
@@ -165,11 +164,11 @@ export default function PrivacyPage() {
             <p>
               Parts of this site are supported by advertising. The Google
               AdSense loader is included only on the educational guide pages
-              under <Link href="/guides">/guides</Link>. It is deliberately
-              absent from this privacy policy, from the terms and contact pages,
-              and from the entire application workspace — the search screen,
-              result lists, map views, saved lists, import and export flows and
-              error states.
+              under <a href="/guides">/guides</a>. It is deliberately absent
+              from this privacy policy, from the terms and contact pages, and
+              from the entire application workspace — the search screen, result
+              lists, map views, saved lists, import and export flows and error
+              states.
             </p>
             <p>Where advertising is served, the following applies:</p>
             <ul>
@@ -284,7 +283,7 @@ export default function PrivacyPage() {
             </ul>
             <p>
               Attribution and licensing for the data sources is set out on the{" "}
-              <Link href="/about/data">data and attribution page</Link>.
+              <a href="/about/data">data and attribution page</a>.
             </p>
           </section>
 
@@ -314,30 +313,30 @@ export default function PrivacyPage() {
             <p>
               Questions about this policy, or about how a particular feature
               handles data, can be raised as an issue in the public repository.
-              See the <Link href="/contact">contact page</Link> for the right
-              channel, including the private route for security reports. Please
-              do not include personal information in a public issue.
+              See the <a href="/contact">contact page</a> for the right channel,
+              including the private route for security reports. Please do not
+              include personal information in a public issue.
             </p>
             <p>
               This document explains how the software behaves. It is not legal
               advice, and it does not determine your obligations when you
               contact the businesses you find — those are covered in the{" "}
-              <Link href="/terms">terms of use</Link> and in{" "}
-              <Link href="/guides/responsible-business-outreach">
+              <a href="/terms">terms of use</a> and in{" "}
+              <a href="/guides/responsible-business-outreach">
                 Responsible business outreach
-              </Link>
+              </a>
               .
             </p>
           </section>
         </div>
 
         <div className="doc-actions">
-          <Link className="doc-inline-link" href="/about/data">
+          <a className="doc-inline-link" href="/about/data">
             Data and attribution →
-          </Link>
-          <Link className="doc-inline-link" href="/terms">
+          </a>
+          <a className="doc-inline-link" href="/terms">
             Terms of use →
-          </Link>
+          </a>
           <a
             className="doc-inline-link"
             href={githubUrl}

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ContentNav } from "@/components/layout/ContentNav";
 import { Footer } from "@/components/layout/Footer";
 import { DataAttribution } from "@/components/DataAttribution";
@@ -70,13 +69,13 @@ export default function GuidesPage() {
               <span>{String(index + 1).padStart(2, "0")}</span>
               <article>
                 <h2>
-                  <Link href={guide.href}>{guide.title}</Link>
+                  <a href={guide.href}>{guide.title}</a>
                 </h2>
                 <div>
                   <p>{guide.summary}</p>
-                  <Link className="doc-inline-link" href={guide.href}>
+                  <a className="doc-inline-link" href={guide.href}>
                     {guide.reading} →
-                  </Link>
+                  </a>
                 </div>
               </article>
             </div>
@@ -106,11 +105,10 @@ export default function GuidesPage() {
             <h2>Related pages</h2>
             <p>
               For the data sources and their licences, see the{" "}
-              <Link href="/about/data">data and attribution page</Link>. For
-              what the project is and why it exists, see{" "}
-              <Link href="/about">About LeadForge</Link>. For what the software
-              handles and stores, see the{" "}
-              <Link href="/privacy">privacy policy</Link>.
+              <a href="/about/data">data and attribution page</a>. For what the
+              project is and why it exists, see{" "}
+              <a href="/about">About LeadForge</a>. For what the software
+              handles and stores, see the <a href="/privacy">privacy policy</a>.
             </p>
           </section>
         </div>

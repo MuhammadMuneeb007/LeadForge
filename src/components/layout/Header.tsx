@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 export type View = "discover" | "saved";
 
 export function Header({
@@ -39,9 +37,9 @@ export function Header({
               {item === "saved" && savedCount > 0 ? <b>{savedCount}</b> : null}
             </button>
           ))}
-          <Link className="nav-link" href="/about">
+          <a className="nav-link" href="/about">
             About
-          </Link>
+          </a>
         </nav>
         <div className="nav-actions">
           <a

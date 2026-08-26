@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
 import { clearLocalData } from "@/lib/storage/local-history";
 
 export function LocalDataControls() {
@@ -14,7 +13,7 @@ export function LocalDataControls() {
             "Clear saved leads and search history from this browser at any time."}
         </p>
       </div>
-      <Link href="/about/data">Data and privacy details →</Link>
+      <a href="/about/data">Data and privacy details →</a>
       <button
         onClick={() =>
           void clearLocalData().then(() =>

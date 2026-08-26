@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ContentNav } from "@/components/layout/ContentNav";
 import { Footer } from "@/components/layout/Footer";
 import { githubUrl } from "@/lib/site";
@@ -40,15 +39,13 @@ export default function ContactPage() {
               than by asking. If a business is missing, has the wrong address,
               or has no phone number, that is almost always the state of the
               underlying open data rather than a fault in LeadForge —{" "}
-              <Link href="/guides/open-business-data">
+              <a href="/guides/open-business-data">
                 Working with open business data
-              </Link>{" "}
+              </a>{" "}
               explains why coverage varies and where a correction should
               actually be made. If a search returns nothing, a larger radius or
               a different category is usually the cause;{" "}
-              <Link href="/guides/how-leadforge-works">
-                How LeadForge works
-              </Link>{" "}
+              <a href="/guides/how-leadforge-works">How LeadForge works</a>{" "}
               covers the search parameters in detail.
             </p>
             <p>
@@ -127,8 +124,7 @@ export default function ContactPage() {
               removing or changing them on that website is what takes effect.
               Nothing you or anyone else looks up is kept on a LeadForge server
               — saved lists exist only in the browser of the person who saved
-              them, as described in the{" "}
-              <Link href="/privacy">privacy policy</Link>.
+              them, as described in the <a href="/privacy">privacy policy</a>.
             </p>
             <p>
               If you believe the application is presenting public data in a way
@@ -211,9 +207,9 @@ export default function ContactPage() {
           >
             Report a vulnerability privately ↗
           </a>
-          <Link className="doc-inline-link" href="/about">
+          <a className="doc-inline-link" href="/about">
             About LeadForge →
-          </Link>
+          </a>
         </div>
       </main>
       <Footer />

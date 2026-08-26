@@ -49,6 +49,15 @@ const policyHeader = (ads: boolean) => [
   { key: "Content-Security-Policy", value: contentSecurityPolicy(ads) },
 ];
 
+/**
+ * A Content-Security-Policy header attaches to the document, not to the route.
+ * An App Router client-side transition does not replace it, so a soft navigation
+ * would carry one page's policy — and any already-executed ad runtime — into the
+ * next page. The site therefore uses plain <a> elements rather than next/link:
+ * every navigation loads a new document, so each page gets its own policy and a
+ * clean JavaScript context. Do not reintroduce next/link without moving this
+ * boundary somewhere that survives client-side routing.
+ */
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   turbopack: { root: process.cwd() },

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ContentNav } from "@/components/layout/ContentNav";
 import { Footer } from "@/components/layout/Footer";
 import { AdSenseScript } from "@/components/ads/AdSenseScript";
@@ -137,11 +136,11 @@ export default function OutreachGuide() {
             <p>
               Mass unsolicited messaging is the use LeadForge is explicitly not
               built for, and it is prohibited by the{" "}
-              <Link href="/terms">terms of use</Link>. Beyond the rules, it
-              fails on its own terms: recipients mark it as spam, sending
-              reputation degrades, the messages stop being delivered at all, and
-              the businesses that might genuinely have wanted to hear from you
-              never see it.
+              <a href="/terms">terms of use</a>. Beyond the rules, it fails on
+              its own terms: recipients mark it as spam, sending reputation
+              degrades, the messages stop being delivered at all, and the
+              businesses that might genuinely have wanted to hear from you never
+              see it.
             </p>
             <p>
               Some practical restraints: keep volumes proportionate to your
@@ -256,12 +255,12 @@ export default function OutreachGuide() {
             <p>
               LeadForge helps here by keeping saved lists in your own browser
               rather than on a server, and by making it a single action to clear
-              them from the <Link href="/about">About page</Link>. Once you
-              export, the file is yours to look after — store it somewhere
+              them from the <a href="/about">About page</a>. Once you export,
+              the file is yours to look after — store it somewhere
               access-controlled rather than a shared drive everyone can read.{" "}
-              <Link href="/guides/exporting-business-data">
+              <a href="/guides/exporting-business-data">
                 Exporting business data
-              </Link>{" "}
+              </a>{" "}
               covers that in more detail.
             </p>
           </section>
@@ -319,12 +318,12 @@ export default function OutreachGuide() {
         </div>
 
         <div className="doc-actions">
-          <Link className="doc-inline-link" href="/guides/open-business-data">
+          <a className="doc-inline-link" href="/guides/open-business-data">
             Working with open business data →
-          </Link>
-          <Link className="doc-inline-link" href="/terms">
+          </a>
+          <a className="doc-inline-link" href="/terms">
             Terms and acceptable use →
-          </Link>
+          </a>
         </div>
 
         <DataAttribution />

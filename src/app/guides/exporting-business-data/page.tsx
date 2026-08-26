@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ContentNav } from "@/components/layout/ContentNav";
 import { Footer } from "@/components/layout/Footer";
 import { AdSenseScript } from "@/components/ads/AdSenseScript";
@@ -140,7 +139,7 @@ export default function ExportGuide() {
               <code>source_id</code> and <code>osm_url</code>, is what lets you
               answer &ldquo;where did this row come from?&rdquo; six months
               later — and it is what makes the attribution obligations described
-              in <Link href="/guides/open-business-data">the data guide</Link>{" "}
+              in <a href="/guides/open-business-data">the data guide</a>{" "}
               practical to meet.
             </p>
             <p>
@@ -289,9 +288,9 @@ export default function ExportGuide() {
               because bad rows outlive the campaign that created them: they get
               assigned, reported on, re-contacted, and merged into other
               records. Do the verification described in{" "}
-              <Link href="/guides/responsible-business-outreach">
+              <a href="/guides/responsible-business-outreach">
                 Responsible business outreach
-              </Link>{" "}
+              </a>{" "}
               first, on the file.
             </p>
             <p>
@@ -324,8 +323,8 @@ export default function ExportGuide() {
               inaccuracy, and are exactly the sort of thing you do not want to
               still be holding without a reason. Inside the application, the
               same principle is one action: <strong>Clear my local data</strong>{" "}
-              on the <Link href="/about">About page</Link> removes saved leads
-              and search history from your browser.
+              on the <a href="/about">About page</a> removes saved leads and
+              search history from your browser.
             </p>
           </section>
 
@@ -343,15 +342,15 @@ export default function ExportGuide() {
         </div>
 
         <div className="doc-actions">
-          <Link className="doc-inline-link" href="/guides/how-leadforge-works">
+          <a className="doc-inline-link" href="/guides/how-leadforge-works">
             How LeadForge works →
-          </Link>
-          <Link
+          </a>
+          <a
             className="doc-inline-link"
             href="/guides/responsible-business-outreach"
           >
             Responsible business outreach →
-          </Link>
+          </a>
         </div>
 
         <DataAttribution />

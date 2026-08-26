@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ContentNav } from "@/components/layout/ContentNav";
 import { Footer } from "@/components/layout/Footer";
 import { LocalDataControls } from "@/components/LocalDataControls";
@@ -94,10 +93,7 @@ export default function AboutPage() {
               website, e-mail address or opening hours. You can review them as a
               list, as a map, or side by side, filter and sort them, and select
               the ones worth keeping. The full walkthrough is in{" "}
-              <Link href="/guides/how-leadforge-works">
-                How LeadForge works
-              </Link>
-              .
+              <a href="/guides/how-leadforge-works">How LeadForge works</a>.
             </p>
           </section>
 
@@ -164,7 +160,7 @@ export default function AboutPage() {
               the store is per-browser, a saved list does not follow you to
               another device — export it if you need it elsewhere. The full
               picture, including what each request sends where, is in the{" "}
-              <Link href="/privacy">privacy policy</Link>.
+              <a href="/privacy">privacy policy</a>.
             </p>
           </section>
 
@@ -178,9 +174,9 @@ export default function AboutPage() {
               geographic features rather than rows. It also imports CSV, so a
               list you exported earlier, or built somewhere else, can be brought
               back in and viewed on the map. See{" "}
-              <Link href="/guides/exporting-business-data">
+              <a href="/guides/exporting-business-data">
                 Exporting business data
-              </Link>{" "}
+              </a>{" "}
               for the column layout and the cleaning steps worth doing first.
             </p>
           </section>
@@ -235,11 +231,11 @@ export default function AboutPage() {
             <p>
               Marketing, privacy and anti-spam rules differ by jurisdiction and
               they are your responsibility to follow.{" "}
-              <Link href="/guides/responsible-business-outreach">
+              <a href="/guides/responsible-business-outreach">
                 Responsible business outreach
-              </Link>{" "}
+              </a>{" "}
               sets out the practices we expect of anyone using this tool, and
-              the <Link href="/terms">terms of use</Link> state what is not
+              the <a href="/terms">terms of use</a> state what is not
               acceptable.
             </p>
           </section>
@@ -255,9 +251,8 @@ export default function AboutPage() {
               <a href={githubUrl} target="_blank" rel="noreferrer">
                 GitHub
               </a>
-              ; see the <Link href="/contact">contact page</Link> for how to
-              report a bug, ask for a feature, or disclose a security problem
-              privately.
+              ; see the <a href="/contact">contact page</a> for how to report a
+              bug, ask for a feature, or disclose a security problem privately.
             </p>
           </section>
         </div>
@@ -303,15 +298,15 @@ export default function AboutPage() {
         </div>
 
         <div className="doc-actions">
-          <Link className="doc-inline-link" href="/guides">
+          <a className="doc-inline-link" href="/guides">
             Read the guides →
-          </Link>
-          <Link className="doc-inline-link" href="/about/data">
+          </a>
+          <a className="doc-inline-link" href="/about/data">
             Data and attribution →
-          </Link>
-          <Link className="doc-inline-link" href="/privacy">
+          </a>
+          <a className="doc-inline-link" href="/privacy">
             Privacy policy →
-          </Link>
+          </a>
         </div>
 
         <LocalDataControls />

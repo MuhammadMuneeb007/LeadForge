@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 /** Static header for informational pages, matching the application header. */
 export function ContentNav({
   label,
@@ -11,27 +9,27 @@ export function ContentNav({
   return (
     <header className="top-nav static-nav">
       <div className="nav-inner">
-        <Link className="wordmark" href="/">
+        <a className="wordmark" href="/">
           <span>LF</span>
           <span className="brand-copy">
             <strong>LeadForge</strong>
             <small>OPEN BUSINESS DISCOVERY</small>
           </span>
-        </Link>
+        </a>
         <nav aria-label="Breadcrumb">
-          <Link href="/">Discover</Link>
+          <a href="/">Discover</a>
           <span>/</span>
           {parent ? (
             <>
-              <Link href={parent.href}>{parent.label}</Link>
+              <a href={parent.href}>{parent.label}</a>
               <span>/</span>
             </>
           ) : null}
           <b>{label}</b>
         </nav>
-        <Link className="nav-cta" href="/">
+        <a className="nav-cta" href="/">
           Open workspace
-        </Link>
+        </a>
       </div>
     </header>
   );

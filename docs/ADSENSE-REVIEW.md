@@ -45,6 +45,22 @@ They are the site owner's responsibility.
   `/guides/*`. No manual ad units were placed; the page-level loader is used, so
   placement is governed by Auto Ads settings in the AdSense dashboard.
 
+### Navigation boundary
+
+A Content-Security-Policy header attaches to the **document**, not to the route,
+and an App Router client-side transition does not replace it. With `next/link`
+that produced two defects: navigating `/guides` → an article kept the
+restrictive policy and blocked the ad loader, and navigating an article → the
+workspace kept the permissive policy *and* the already-executed ad runtime, so
+Auto Ads could have placed ads on unmonetised screens.
+
+The site therefore uses plain `<a>` elements instead of `next/link`, so every
+navigation loads a new document with its own policy and a clean JavaScript
+context. `@next/next/no-html-link-for-pages` is switched off in
+`eslint.config.mjs` for that reason. Do not reintroduce `next/link` without
+moving this boundary somewhere that survives client-side routing — the notes in
+`next.config.ts` and `AdSenseScript.tsx` say the same thing at the point of use.
+
 ### Content
 
 New server-rendered, independently crawlable pages with original editorial

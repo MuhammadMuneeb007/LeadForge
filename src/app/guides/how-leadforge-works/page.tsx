@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ContentNav } from "@/components/layout/ContentNav";
 import { Footer } from "@/components/layout/Footer";
 import { AdSenseScript } from "@/components/ads/AdSenseScript";
@@ -245,8 +244,8 @@ export default function HowItWorksGuide() {
               follow you to another browser or device, nobody else can see it,
               and clearing your browser data or using{" "}
               <strong>Clear my local data</strong> on the{" "}
-              <Link href="/about">About page</Link> removes it permanently.
-              Export anything you would be annoyed to lose.
+              <a href="/about">About page</a> removes it permanently. Export
+              anything you would be annoyed to lose.
             </p>
             <p>
               You can also add a business by hand — useful for a referral or a
@@ -314,9 +313,9 @@ export default function HowItWorksGuide() {
               than rows. The CSV carries the source and source identifier for
               every record, so a row can always be traced back to where it came
               from.{" "}
-              <Link href="/guides/exporting-business-data">
+              <a href="/guides/exporting-business-data">
                 Exporting business data
-              </Link>{" "}
+              </a>{" "}
               covers the columns and the clean-up worth doing first.
             </p>
           </section>
@@ -334,25 +333,25 @@ export default function HowItWorksGuide() {
             </p>
             <p>
               Read{" "}
-              <Link href="/guides/open-business-data">
+              <a href="/guides/open-business-data">
                 Working with open business data
-              </Link>{" "}
+              </a>{" "}
               to understand why the gaps exist, and{" "}
-              <Link href="/guides/responsible-business-outreach">
+              <a href="/guides/responsible-business-outreach">
                 Responsible business outreach
-              </Link>{" "}
+              </a>{" "}
               before you contact anyone on the list.
             </p>
           </section>
         </div>
 
         <div className="doc-actions">
-          <Link className="doc-inline-link" href="/guides">
+          <a className="doc-inline-link" href="/guides">
             All guides →
-          </Link>
-          <Link className="doc-inline-link" href="/">
+          </a>
+          <a className="doc-inline-link" href="/">
             Open the workspace →
-          </Link>
+          </a>
         </div>
 
         <DataAttribution />

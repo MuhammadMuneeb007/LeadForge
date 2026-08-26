@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import { ContentNav } from "@/components/layout/ContentNav";
 import { Footer } from "@/components/layout/Footer";
@@ -28,12 +27,12 @@ export default function NotFound() {
             how the data and exports work.
           </p>
           <div className="doc-actions">
-            <Link className="doc-inline-link" href="/">
+            <a className="doc-inline-link" href="/">
               Open the workspace →
-            </Link>
-            <Link className="doc-inline-link" href="/guides">
+            </a>
+            <a className="doc-inline-link" href="/guides">
               Browse the guides →
-            </Link>
+            </a>
           </div>
         </section>
       </main>

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ContentNav } from "@/components/layout/ContentNav";
 import { Footer } from "@/components/layout/Footer";
 import { githubUrl } from "@/lib/site";
@@ -76,9 +75,9 @@ export default function TermsPage() {
               current and appropriate to use, before contacting it or relying on
               the record for any decision. Practical verification steps are
               described in{" "}
-              <Link href="/guides/responsible-business-outreach">
+              <a href="/guides/responsible-business-outreach">
                 Responsible business outreach
-              </Link>
+              </a>
               .
             </p>
           </section>
@@ -173,8 +172,8 @@ export default function TermsPage() {
               OpenFreeMap. If you republish or redistribute records obtained
               here, you are responsible for meeting the attribution and
               share-alike conditions those licences impose. The{" "}
-              <Link href="/about/data">data and attribution page</Link> sets out
-              each source.
+              <a href="/about/data">data and attribution page</a> sets out each
+              source.
             </p>
           </section>
 
@@ -222,7 +221,7 @@ export default function TermsPage() {
               AdSense. The application workspace and the policy pages do not.
               How advertising cookies are used, and how to opt out of
               personalisation, is described in the{" "}
-              <Link href="/privacy">privacy policy</Link>.
+              <a href="/privacy">privacy policy</a>.
             </p>
           </section>
 
@@ -239,18 +238,18 @@ export default function TermsPage() {
         </div>
 
         <div className="doc-actions">
-          <Link className="doc-inline-link" href="/privacy">
+          <a className="doc-inline-link" href="/privacy">
             Privacy policy →
-          </Link>
-          <Link
+          </a>
+          <a
             className="doc-inline-link"
             href="/guides/responsible-business-outreach"
           >
             Responsible outreach guide →
-          </Link>
-          <Link className="doc-inline-link" href="/contact">
+          </a>
+          <a className="doc-inline-link" href="/contact">
             Contact →
-          </Link>
+          </a>
         </div>
       </main>
       <Footer />
