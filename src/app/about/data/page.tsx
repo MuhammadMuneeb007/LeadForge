@@ -1,17 +1,24 @@
-import Link from "next/link";
+import type { Metadata } from "next";
+import { ContentNav } from "@/components/layout/ContentNav";
 import { Footer } from "@/components/layout/Footer";
 import { DataAttribution } from "@/components/DataAttribution";
+
+const title = "Data sources, privacy and attribution";
+const description =
+  "Where every LeadForge result comes from: OpenStreetMap listings, the GeoNames city index, OpenFreeMap tiles, optional website contact discovery, and local browser storage.";
+
+export const metadata: Metadata = {
+  title,
+  description,
+  alternates: { canonical: "/about/data" },
+  openGraph: { title: `${title} | LeadForge`, description, url: "/about/data" },
+  twitter: { title: `${title} | LeadForge`, description },
+};
 
 export default function DataPage() {
   return (
     <>
-      <header className="top-nav static-nav">
-        <div className="nav-inner">
-          <Link className="wordmark" href="/"><span>LF</span><span className="brand-copy"><strong>LeadForge</strong><small>OPEN BUSINESS DISCOVERY</small></span></Link>
-          <nav aria-label="Breadcrumb"><Link href="/">Discover</Link><span>/</span><b>Data and privacy</b></nav>
-          <Link className="nav-cta" href="/">Open workspace</Link>
-        </div>
-      </header>
+      <ContentNav label="Data and privacy" />
       <main className="data-page">
         <header className="data-hero">
           <p className="kicker">DATA, PRIVACY &amp; ATTRIBUTION</p>
@@ -33,6 +40,17 @@ export default function DataPage() {
           <div><p className="kicker">RESPONSIBLE USE</p><h2>Treat every result as a starting point.</h2></div>
           <p>Verify contact details, follow local privacy and marketing laws, respect opt-out requests, and contact businesses with a relevant reason—not indiscriminate spam.</p>
         </section>
+        <div className="doc-actions">
+          <a className="doc-inline-link" href="/privacy">
+            Full privacy policy →
+          </a>
+          <a className="doc-inline-link" href="/guides/open-business-data">
+            Working with open business data →
+          </a>
+          <a className="doc-inline-link" href="/about">
+            About LeadForge →
+          </a>
+        </div>
         <DataAttribution />
       </main>
       <Footer />
