@@ -22,7 +22,7 @@ LeadForge is a privacy-first, open-source workspace for discovering public busin
 
 Business data comes from OpenStreetMap through bounded Overpass queries. City suggestions use a local GeoNames index, and map tiles use OpenFreeMap. Coverage can be incomplete or outdated; LeadForge does not infer buying intent. Verify every record and comply with applicable privacy, anti-spam, and marketing laws.
 
-See [data sources](docs/DATA-SOURCES.md) and the in-app [data and privacy page](https://leadforge-umber.vercel.app/about/data).
+See [data sources](docs/DATA-SOURCES.md), the [data and privacy page](https://leadforge-umber.vercel.app/about/data), and the [guides](https://leadforge-umber.vercel.app/guides) covering the search workflow, open data quality, responsible outreach, and exports.
 
 ## Run locally
 
@@ -49,6 +49,10 @@ npm audit --audit-level=high
 ```
 
 The same checks run in GitHub Actions for every push and pull request.
+
+## Advertising and site policies
+
+The site publishes a [privacy policy](https://leadforge-umber.vercel.app/privacy), [terms](https://leadforge-umber.vercel.app/terms), and [contact page](https://leadforge-umber.vercel.app/contact). Google AdSense is loaded only on the `/guides/*` article pages; the application workspace, policy pages, and error pages carry no advertising script. Consent messaging for EEA, UK, and Swiss traffic must be configured through Google's Privacy & Messaging settings — see [AdSense review notes](docs/ADSENSE-REVIEW.md) for the full manual checklist.
 
 ## Configuration and deployment
 

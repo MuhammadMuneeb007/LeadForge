@@ -25,10 +25,15 @@ export function Footer() {
         <Link href="/">Discover businesses</Link>
         <Link href="/#how-it-works">How it works</Link>
         <Link href="/#workspace">Import a list</Link>
+        <Link href="/about">About</Link>
       </div>
       <div className="footer-column">
         <strong>Resources</strong>
-        <Link href="/about/data">Data and privacy</Link>
+        <Link href="/guides">Guides</Link>
+        <Link href="/about/data">Data and attribution</Link>
+        <Link href="/privacy">Privacy</Link>
+        <Link href="/terms">Terms</Link>
+        <Link href="/contact">Contact</Link>
         <a href={github} target="_blank" rel="noreferrer">
           Source code ↗
         </a>

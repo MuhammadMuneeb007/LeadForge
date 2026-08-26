@@ -1,6 +1,8 @@
 "use client";
 
-export type View = "discover" | "saved" | "about";
+import Link from "next/link";
+
+export type View = "discover" | "saved";
 
 export function Header({
   view,
@@ -26,7 +28,7 @@ export function Header({
           </span>
         </button>
         <nav aria-label="Primary navigation">
-          {(["discover", "saved", "about"] as const).map((item) => (
+          {(["discover", "saved"] as const).map((item) => (
             <button
               key={item}
               className={view === item ? "active" : ""}
@@ -37,6 +39,9 @@ export function Header({
               {item === "saved" && savedCount > 0 ? <b>{savedCount}</b> : null}
             </button>
           ))}
+          <Link className="nav-link" href="/about">
+            About
+          </Link>
         </nav>
         <div className="nav-actions">
           <a

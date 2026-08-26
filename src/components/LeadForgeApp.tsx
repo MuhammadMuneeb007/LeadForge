@@ -10,7 +10,6 @@ import { DataAttribution } from "@/components/DataAttribution";
 import { downloadCsv, downloadGeoJson } from "@/lib/csv/export";
 import { importLeadsCsv } from "@/lib/csv/import";
 import {
-  clearLocalData,
   readHistory,
   readSelected,
   saveHistory,
@@ -327,88 +326,7 @@ export function LeadForgeApp() {
             )}
           </>
         )}
-        {view === "about" && (
-          <section className="about-page">
-            <div className="about-hero">
-              <p className="kicker">ABOUT LEADFORGE</p>
-              <h1>
-                A transparent prospecting workspace built around open data.
-              </h1>
-              <p>
-                LeadForge uses OpenStreetMap and a local GeoNames city index.
-                Searches and saved leads remain in IndexedDB in this browser.
-                Contact discovery visits only a listing’s public website and
-                blocks private network destinations.
-              </p>
-              <p>
-                <a href="/about/data">
-                  Read about data sources and attribution
-                </a>
-              </p>
-            </div>
-            <div className="about-grid">
-              <article>
-                <span>01</span>
-                <h2>Search responsibly</h2>
-                <p>
-                  Queries are geographically bounded and use public
-                  OpenStreetMap listings. Coverage varies, so every record
-                  should be verified.
-                </p>
-              </article>
-              <article>
-                <span>02</span>
-                <h2>Keep control</h2>
-                <p>
-                  Saved leads and recent searches stay inside this browser.
-                  LeadForge does not operate a central customer database.
-                </p>
-              </article>
-              <article>
-                <span>03</span>
-                <h2>Export cleanly</h2>
-                <p>
-                  Choose the records you need and export CSV, phone lists, email
-                  lists, or GeoJSON for your own workflow.
-                </p>
-              </article>
-            </div>
-            <div className="about-details">
-              <div>
-                <p className="kicker">WHAT IT DOES</p>
-                <h2>Useful tools, without pretending the data is perfect.</h2>
-              </div>
-              <ul>
-                <li>Worldwide country and city selection</li>
-                <li>Radius-based map search and individual business nodes</li>
-                <li>Public website contact discovery on request</li>
-                <li>Local saved lists, filters, sorting, and exports</li>
-              </ul>
-            </div>
-            <div className="privacy-panel">
-              <div>
-                <strong>Your local workspace</strong>
-                <p>
-                  Clear saved leads and search history from this browser at any
-                  time.
-                </p>
-              </div>
-              <a href="/about/data">Data and privacy details →</a>
-              <button
-                onClick={() =>
-                  void clearLocalData().then(() => {
-                    setSaved([]);
-                    setHistory([]);
-                    toast("Local data cleared.");
-                  })
-                }
-              >
-                Clear my local data
-              </button>
-            </div>
-          </section>
-        )}
-        {view !== "about" && source.length > 0 && (
+        {source.length > 0 && (
           <section className="results-section">
             <div className="results-head">
               <div>

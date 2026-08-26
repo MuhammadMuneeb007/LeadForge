@@ -86,7 +86,8 @@ select {
   height: 100%;
   gap: 28px;
 }
-.top-nav nav button {
+.top-nav nav button,
+.top-nav nav a.nav-link {
   height: 100%;
   border: 0;
   border-bottom: 2px solid transparent;
@@ -1607,7 +1608,8 @@ a:focus-visible {
     justify-content: space-around;
     height: 38px;
   }
-  .top-nav nav button {
+  .top-nav nav button,
+  .top-nav nav a.nav-link {
     height: 38px;
   }
   .hero {
@@ -2133,7 +2135,8 @@ a:focus-visible {
   .top-nav nav {
     height: 38px;
   }
-  .top-nav nav button {
+  .top-nav nav button,
+  .top-nav nav a.nav-link {
     height: 38px;
   }
   .nav-actions .github-link {
@@ -2189,7 +2192,8 @@ body {
   font-size: 9px;
   line-height: 1.2;
 }
-.top-nav nav button {
+.top-nav nav button,
+.top-nav nav a.nav-link {
   font-size: 14px;
   font-weight: 700;
 }
@@ -2468,4 +2472,89 @@ body {
     gap: 16px;
     line-height: 1.5;
   }
+}
+
+/* Informational pages: header link, long-form prose, and inline actions.
+   Values reuse the existing tokens and type scale — no new palette. */
+.top-nav nav a.nav-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+.doc-body {
+  max-width: 760px;
+  margin: 45px 0 10px;
+}
+.doc-body section + section {
+  margin-top: 40px;
+}
+.doc-body h2 {
+  margin: 0 0 14px;
+  font:
+    27px/1.2 var(--font-serif),
+    serif;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+.doc-body h3 {
+  margin: 26px 0 10px;
+  font-size: 17px;
+}
+.doc-body p,
+.doc-body li {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.75;
+}
+.doc-body p {
+  margin: 0 0 14px;
+}
+.doc-body ul,
+.doc-body ol {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 16px;
+  padding-left: 20px;
+}
+.doc-body strong {
+  color: var(--ink);
+}
+.doc-body a {
+  color: var(--green);
+  font-weight: 600;
+}
+.doc-body code {
+  padding: 1px 5px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 13px;
+}
+.source-list h2 a {
+  color: var(--green);
+  text-decoration: none;
+}
+.source-list h2 a:hover {
+  color: var(--green2);
+}
+.doc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin: 34px 0 18px;
+}
+.page-panel .doc-actions {
+  justify-content: center;
+}
+.doc-inline-link {
+  display: inline-flex;
+  border-bottom: 1px solid var(--green);
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 750;
+  text-decoration: none;
+}
+.source-list .doc-inline-link {
+  margin-top: 12px;
 }
