@@ -1,0 +1,15 @@
+{
+  "name":"leadforge-web-promo",
+  "private":true,
+  "scripts":{
+    "capture":"node capture.mjs",
+    "render":"remotion render src/index.jsx LeadForgePromo out/leadforge-website-promo.mp4 --codec=h264 --crf=18 --audio-codec=aac --concurrency=2"
+  },
+  "dependencies":{
+    "@remotion/cli":"4.0.526",
+    "playwright":"1.55.0",
+    "react":"19.1.1",
+    "react-dom":"19.1.1",
+    "remotion":"4.0.526"
+  }
+}
