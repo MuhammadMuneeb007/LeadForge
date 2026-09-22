@@ -1,0 +1,81 @@
+name: Render LeadForge website promo
+
+on:
+  push:
+    branches: [promo-video-build]
+    paths:
+      - "promo-web/**"
+      - ".github/workflows/render-leadforge-promo.yml"
+  workflow_dispatch:
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: promo-web/package.json
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install media tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Install JS dependencies
+        working-directory: promo-web
+        run: npm install
+
+      - name: Install Chromium
+        working-directory: promo-web
+        run: npx playwright install --with-deps chromium
+
+      - name: Install narration engine
+        run: python -m pip install --upgrade pip edge-tts
+
+      - name: Capture live LeadForge
+        working-directory: promo-web
+        run: npm run capture
+
+      - name: Generate Australian female narration
+        working-directory: promo-web
+        run: python scripts/tts.py
+
+      - name: Generate music and sound effects
+        working-directory: promo-web
+        run: python scripts/audio_assets.py
+
+      - name: Ensure Remotion browser
+        working-directory: promo-web
+        run: npx remotion browser ensure
+
+      - name: Render LeadForge website promo
+        working-directory: promo-web
+        run: npm run render
+
+      - name: Create QC sheet
+        working-directory: promo-web
+        run: |
+          mkdir -p qc
+          ffmpeg -y -i out/leadforge-website-promo.mp4 -vf "fps=1/6,scale=480:-1,tile=3x2" -frames:v 1 qc/contact.jpg
+          ffprobe -v error -show_entries format=duration,size:stream=codec_name,width,height,r_frame_rate -of default=noprint_wrappers=1 out/leadforge-website-promo.mp4
+
+      - name: Upload promo
+        uses: actions/upload-artifact@v4
+        with:
+          name: leadforge-website-promo
+          path: |
+            promo-web/out/leadforge-website-promo.mp4
+            promo-web/qc/contact.jpg
+          if-no-files-found: error
+          retention-days: 14
